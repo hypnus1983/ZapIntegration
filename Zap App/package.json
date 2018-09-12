@@ -1,0 +1,24 @@
+{
+  "name": "comm100-live-chat-zap-app",
+  "version": "1.0.0",
+  "description": "Comm100 Live Chat App for the Zapier platform.",
+  "repository": "zapier/comm100-live-chat-zap-app",
+  "homepage": "https://www.comm100.com/",
+  "author": "Comm100 Support <support@comm100.com>",
+  "license": "BSD-3-Clause",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "engines": {
+    "node": "8.10.0",
+    "npm": ">=5.6.0"
+  },
+  "dependencies": {
+    "zapier-platform-core": "7.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "should": "^13.2.0"
+  }
+}
