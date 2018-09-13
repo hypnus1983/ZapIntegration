@@ -7,6 +7,9 @@ process.env.REDIRECT_URI = process.env.REDIRECT_URI || 'https://localhost';
 
 const authentication = require('./authentication');
 const offlinemessagetrigger = require('./triggers/offlinemessagesubmitted');
+const chatstartedtrigger = require('./triggers/chatstarted');
+const chatendedtrigger = require('./triggers/chatended');
+
 
 // To include the Authorization header on all outbound requests, simply define a function here.
 // It runs runs before each request is sent out, allowing you to make tweaks to the request in a centralized spot
@@ -39,7 +42,9 @@ const App = {
 
   // If you want your trigger to show up, you better include it here!
   triggers: {
-    [offlinemessagetrigger.key]: offlinemessagetrigger
+    [offlinemessagetrigger.key]: offlinemessagetrigger,
+    [chatstartedtrigger.key]: chatstartedtrigger,
+    [chatendedtrigger.key]: chatendedtrigger
   },
 
   // If you want your searches to show up, you better include it here!

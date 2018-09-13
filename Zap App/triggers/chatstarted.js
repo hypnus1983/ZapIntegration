@@ -1,14 +1,11 @@
-const sample = require('../samples/offlinemessage_sample.json');
+const sample = require('../samples/chatstarted_sample.json');
 
 const subscribeHook = (z, bundle) => {
-  // bundle.targetUrl has the Hook URL this app should call when a recipe is created.
   const data = {
     targetUrl: bundle.targetUrl,
-    event: 'offlinemessagesubmitted'
+    event: 'chatStarted'
   };
 
-  // You can build requests and our client will helpfully inject all the variables
-  // you need to complete. You can also register middleware to control this.
   const options = {
     url: `${process.env.BASE_URL}/api/v2/livechat/webhooks`,
     method: 'POST',
@@ -18,47 +15,30 @@ const subscribeHook = (z, bundle) => {
     }
   };
 
-  // You may return a promise or a normal data structure from any perform method.
   return z.request(options)
     .then((response) => JSON.parse(response.content));
 };
 
 const unsubscribeHook = (z, bundle) => {
-  // bundle.subscribeData contains the parsed response JSON from the subscribe
-  // request made initially.
   const hookId = bundle.subscribeData.id;
 
-  // You can build requests and our client will helpfully inject all the variables
-  // you need to complete. You can also register middleware to control this.
   const options = {
     url: `${process.env.BASE_URL}/api/v2/livechat/webhooks/${hookId}`,
     method: 'DELETE',
   };
 
-  // You may return a promise or a normal data structure from any perform method.
   return z.request(options)
     .then((response) => response.content);
 };
 
-const getOfflineMessage = (z, bundle) => {
+const getChatStarted = (z, bundle) => {
 
   const recipe = bundle.cleanedRequest;
 
   return [recipe];
 };
 
-const getFallbackRealOfflineMessage = (z, bundle) => {
-  // For the test poll, you should get some real data, to aid the setup process.
- /* const options = {
-    url: 'http://57b20fb546b57d1100a3c405.mockapi.io/api/recipes/',
-    params: {
-      style: bundle.inputData.style
-    }
-  };
-
-  return z.request(options)
-    .then((response) => JSON.parse(response.content));*/
-    
+const getFallbackRealChatStarted = (z, bundle) => {    
    const json = sample;
    return [json];
 };
@@ -67,14 +47,14 @@ const getFallbackRealOfflineMessage = (z, bundle) => {
 // We recommend writing your triggers separate like this and rolling them
 // into the App definition at the end.
 module.exports = {
-  key: 'offline_message_submitted',
+  key: 'chat_started',
 
   // You'll want to provide some helpful display labels and descriptions
   // for users. Zapier will put them into the UX.
-  noun: 'offline message',
+  noun: 'Chat Started',
   display: {
-    label: 'Offline Message Submitted',
-    description: 'Trigger when an offline message is submitted.'
+    label: 'Chat Started',
+    description: 'Trigger when a new chat is started.'
   },
 
   // `operation` is where the business logic goes.
@@ -91,8 +71,8 @@ module.exports = {
     performSubscribe: subscribeHook,
     performUnsubscribe: unsubscribeHook,
 
-    perform: getOfflineMessage,
-    performList: getFallbackRealOfflineMessage,
+    perform: getChatStarted,
+    performList: getFallbackRealChatStarted,
 
     // In cases where Zapier needs to show an example record to the user, but we are unable to get a live example
     // from the API, Zapier will fallback to this hard-coded sample. It should reflect the data structure of
@@ -103,18 +83,14 @@ module.exports = {
     // field definitions. The result will be used to augment the sample.
     // outputFields: () => { return []; }
     // Alternatively, a static field definition should be provided, to specify labels for the fields
-    /* outputFields: [
-      {key: 'offline_message', label: 'Offline Message'},
-      {key: 'visitor', label: 'Visitor Info'},
+    /*outputFields: [
       {key: 'event', label: 'Event Type'},
-      {key: 'offline_message content', label: 'Offline Message Content'},
-      {key: 'offline_message email', label: 'Visitor\'s Email'},
-      {key: 'offline_message name', label: 'Visitor\' Name'},
-      {key: 'offline_message phone', label: 'Visitor\' Phone Number'},
+      {key: 'visitor', label: 'Visitor Info'},
       {key: 'visitor email', label: 'Visitor\'s Email'},
       {key: 'visitor name', label: 'Visitor\'s Name'},
       {key: 'visitor country', label: 'Visitor\'s Country'},
       {key: 'visitor city', label: 'Visitor\'s City'},
-    ] */
+      {key: 'visitor chat_id', label: 'Chat Id'},
+    ]*/
   }
 };
