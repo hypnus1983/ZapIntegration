@@ -1,48 +1,37 @@
 const sample = require('../samples/chatended_sample.json');
+const util = require('../commom/util');
 
-const subscribeHook = (z, bundle) => {
-  const data = {
-    targetUrl: bundle.targetUrl,
-    event: 'chatEnded'
-  };
-
-  const options = {
-    url: `${process.env.BASE_URL}/api/v2/livechat/webhooks`,
-    method: 'POST',
-    body: data,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  return z.request(options)
-    .then((response) => JSON.parse(response.content));
+const subscribeHook = (z, bundle) => { 
+  return util.subscribe(z, bundle, 'chatEnded')
 };
 
 const unsubscribeHook = (z, bundle) => {
-  const hookId = bundle.subscribeData.id;
-
-  const options = {
-    url: `${process.env.BASE_URL}/api/v2/livechat/webhooks/${hookId}`,
-    method: 'DELETE',
-  };
-
-  return z.request(options)
-    .then((response) => response.content);
+  return util.unsubscribe(z, bundle)
 };
 
 const getChatended = (z, bundle) => {
 
-  const recipe = bundle.cleanedRequest;
+  const recipe = reformatJson(bundle.cleanedRequest);
 
   return [recipe];
 };
 
 const getFallbackRealChatended = (z, bundle) => {    
-   const json = sample;
+
+
+   const json = reformatJson(sample);
    return [json];
 };
 
+
+const reformatJson = (json) => {
+   const copy = util.copyJsonObject(json);
+    if(copy.chat && copy.chat.chat_transcript) {
+      const transcript = JSON.stringify(copy.chat.chat_transcript).replace(/⊙/g,'\n');
+      copy.chat.chat_transcript = transcript;
+    }
+    return copy;
+}
 
 // We recommend writing your triggers separate like this and rolling them
 // into the App definition at the end.

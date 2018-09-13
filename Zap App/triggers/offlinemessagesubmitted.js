@@ -1,43 +1,12 @@
 const sample = require('../samples/offlinemessage_sample.json');
+const util = require('../commom/util');
 
-const subscribeHook = (z, bundle) => {
-  // bundle.targetUrl has the Hook URL this app should call when a recipe is created.
-  const data = {
-    targetUrl: bundle.targetUrl,
-    event: 'offlinemessagesubmitted'
-  };
-
-  // You can build requests and our client will helpfully inject all the variables
-  // you need to complete. You can also register middleware to control this.
-  const options = {
-    url: `${process.env.BASE_URL}/api/v2/livechat/webhooks`,
-    method: 'POST',
-    body: data,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  // You may return a promise or a normal data structure from any perform method.
-  return z.request(options)
-    .then((response) => JSON.parse(response.content));
+const subscribeHook = (z, bundle) => { 
+  return util.subscribe(z, bundle, 'offlinemessagesubmitted')
 };
 
 const unsubscribeHook = (z, bundle) => {
-  // bundle.subscribeData contains the parsed response JSON from the subscribe
-  // request made initially.
-  const hookId = bundle.subscribeData.id;
-
-  // You can build requests and our client will helpfully inject all the variables
-  // you need to complete. You can also register middleware to control this.
-  const options = {
-    url: `${process.env.BASE_URL}/api/v2/livechat/webhooks/${hookId}`,
-    method: 'DELETE',
-  };
-
-  // You may return a promise or a normal data structure from any perform method.
-  return z.request(options)
-    .then((response) => response.content);
+  return util.unsubscribe(z, bundle)
 };
 
 const getOfflineMessage = (z, bundle) => {

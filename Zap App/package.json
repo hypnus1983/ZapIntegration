@@ -1,6 +1,6 @@
 {
   "name": "comm100-live-chat-zap-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Comm100 Live Chat App for the Zapier platform.",
   "repository": "zapier/comm100-live-chat-zap-app",
   "homepage": "https://www.comm100.com/",
@@ -15,7 +15,7 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
-    "zapier-platform-core": "7.2.0"
+    "zapier-platform-core": "7.2.1"
   },
   "devDependencies": {
     "mocha": "^5.2.0",

@@ -1,34 +1,12 @@
 const sample = require('../samples/chatstarted_sample.json');
+const util = require('../commom/util');
 
-const subscribeHook = (z, bundle) => {
-  const data = {
-    targetUrl: bundle.targetUrl,
-    event: 'chatStarted'
-  };
-
-  const options = {
-    url: `${process.env.BASE_URL}/api/v2/livechat/webhooks`,
-    method: 'POST',
-    body: data,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  return z.request(options)
-    .then((response) => JSON.parse(response.content));
+const subscribeHook = (z, bundle) => { 
+  return util.subscribe(z, bundle, 'chatStarted')
 };
 
 const unsubscribeHook = (z, bundle) => {
-  const hookId = bundle.subscribeData.id;
-
-  const options = {
-    url: `${process.env.BASE_URL}/api/v2/livechat/webhooks/${hookId}`,
-    method: 'DELETE',
-  };
-
-  return z.request(options)
-    .then((response) => response.content);
+  return util.unsubscribe(z, bundle)
 };
 
 const getChatStarted = (z, bundle) => {

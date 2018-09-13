@@ -42,9 +42,9 @@ const App = {
 
   // If you want your trigger to show up, you better include it here!
   triggers: {
-    [offlinemessagetrigger.key]: offlinemessagetrigger,
+    [chatendedtrigger.key]: chatendedtrigger,
     [chatstartedtrigger.key]: chatstartedtrigger,
-    [chatendedtrigger.key]: chatendedtrigger
+    [offlinemessagetrigger.key]: offlinemessagetrigger,
   },
 
   // If you want your searches to show up, you better include it here!
