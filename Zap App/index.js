@@ -6,7 +6,7 @@ process.env.CLIENT_SECRET = process.env.CLIENT_SECRET || 'we2B9GH0cDOc88RWjEGI';
 process.env.REDIRECT_URI = process.env.REDIRECT_URI || 'https://localhost';
 
 const authentication = require('./authentication');
-const recipe = require('./triggers/recipe');
+const offlinemessagetrigger = require('./triggers/offlinemessagesubmitted');
 
 // To include the Authorization header on all outbound requests, simply define a function here.
 // It runs runs before each request is sent out, allowing you to make tweaks to the request in a centralized spot
@@ -39,7 +39,7 @@ const App = {
 
   // If you want your trigger to show up, you better include it here!
   triggers: {
-    [recipe.key]: recipe
+    [offlinemessagetrigger.key]: offlinemessagetrigger
   },
 
   // If you want your searches to show up, you better include it here!

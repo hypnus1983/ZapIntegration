@@ -1,19 +1,21 @@
-const subscribeHook = (z, bundle) => {
-  // `z.console.log()` is similar to `console.log()`.
-  z.console.log('console says hello world!');
+const sample = require('../samples/offlinemessage_sample.json');
 
+const subscribeHook = (z, bundle) => {
   // bundle.targetUrl has the Hook URL this app should call when a recipe is created.
   const data = {
-    url: bundle.targetUrl,
-    style: bundle.inputData.style
+    targetUrl: bundle.targetUrl,
+    event: 'offlinemessagesubmitted'
   };
 
   // You can build requests and our client will helpfully inject all the variables
   // you need to complete. You can also register middleware to control this.
   const options = {
-    url: 'https://hooks.zapier.com/hooks/catch/3734059/q8ain2/',
+    url: `${process.env.BASE_URL}/api/v2/livechat/webhooks`,
     method: 'POST',
-    body: JSON.stringify(data)
+    body: data,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   };
 
   // You may return a promise or a normal data structure from any perform method.
@@ -29,32 +31,23 @@ const unsubscribeHook = (z, bundle) => {
   // You can build requests and our client will helpfully inject all the variables
   // you need to complete. You can also register middleware to control this.
   const options = {
-    url: `https://hooks.zapier.com/hooks/catch/3734059/q8ain2?hookid=`+hookId,
+    url: `${process.env.BASE_URL}/api/v2/livechat/webhooks/${hookId}`,
     method: 'DELETE',
   };
 
   // You may return a promise or a normal data structure from any perform method.
   return z.request(options)
-    .then((response) => JSON.parse(response.content));
+    .then((response) => response.content);
 };
 
-const getRecipe = (z, bundle) => {
-  // bundle.cleanedRequest will include the parsed JSON object (if it's not a
-  // test poll) and also a .querystring property with the URL's query string.
- /* const recipe = {
-    id: bundle.cleanedRequest.id,
-    name: name,
-    directions: bundle.cleanedRequest.directions,
-    style: bundle.cleanedRequest.style,
-    authorId: bundle.cleanedRequest.authorId,
-    createdAt: bundle.cleanedRequest.createdAt
-  };*/
-  const recipe = reformatJson(bundle.cleanedRequest);
+const getOfflineMessage = (z, bundle) => {
+
+  const recipe = bundle.cleanedRequest;
 
   return [recipe];
 };
 
-const getFallbackRealRecipe = (z, bundle) => {
+const getFallbackRealOfflineMessage = (z, bundle) => {
   // For the test poll, you should get some real data, to aid the setup process.
  /* const options = {
     url: 'http://57b20fb546b57d1100a3c405.mockapi.io/api/recipes/',
@@ -65,42 +58,23 @@ const getFallbackRealRecipe = (z, bundle) => {
 
   return z.request(options)
     .then((response) => JSON.parse(response.content));*/
-
-    return reformatJson(JSON.parse('[{      "id": 100,      "createdAt1": 999,      "name": "joe",      "authorId": 1,      "directions": "1. Boil Noodles2.Serve with sauce",      "style": "italian",      "options": {        "sex": 0,        "age": 20      },      "tags": [        {"name": "a", "index": 1},        {"name": "b", "index": 2},        {"name": "c", "index": 3}      ]}]'));
-};
-
-const reformatJson = (json) => {
-  const recipe = {
-    id: json.id,
-    name: json.name,
-    directions: json.directions,
-    style: json.style,
-    authorId: json.authorId,
-    createdAt: json.createdAt,
-    options: json.options
-  };
-
-  if(json.tags) {
-    for(let i=0;i<json.tags.length;i++) {
-      recipe['tags'+i] = json.tags[i];
-    }
-  }
-
-  return [recipe];
+    
+   const json = sample;
+   return [json];
 };
 
 
 // We recommend writing your triggers separate like this and rolling them
 // into the App definition at the end.
 module.exports = {
-  key: 'recipe',
+  key: 'offline_message_submitted',
 
   // You'll want to provide some helpful display labels and descriptions
   // for users. Zapier will put them into the UX.
-  noun: 'Recipe',
+  noun: 'offline message',
   display: {
-    label: 'New Recipe',
-    description: 'Trigger when a new recipe is added.'
+    label: 'Offline Message Submitted',
+    description: 'Trigger when an offline message is submitted.'
   },
 
   // `operation` is where the business logic goes.
@@ -108,52 +82,39 @@ module.exports = {
 
     // `inputFields` can define the fields a user could provide,
     // we'll pass them in as `bundle.inputData` later.
-    inputFields: [
+    /* inputFields: [
       {key: 'style', type: 'string', helpText: 'Which styles of cuisine this should trigger on.'}
-    ],
+    ], */
 
     type: 'hook',
 
     performSubscribe: subscribeHook,
     performUnsubscribe: unsubscribeHook,
 
-    perform: getRecipe,
-    performList: getFallbackRealRecipe,
+    perform: getOfflineMessage,
+    performList: getFallbackRealOfflineMessage,
 
     // In cases where Zapier needs to show an example record to the user, but we are unable to get a live example
     // from the API, Zapier will fallback to this hard-coded sample. It should reflect the data structure of
     // returned records, and have obviously dummy values that we can show to any user.
-    sample: {
-      id: 1,
-      createdAt1: 1472069465,
-      name: 'Best Spagetti Ever',
-      authorId: 1,
-      directions: '1. Boil Noodles2.Serve with sauce',
-      style: 'italian',
-      options: {
-        sex: 0,
-        age: 20
-      },
-      tags: [
-        {name: 'a', index: 1},
-        {name: 'b', index: 2},
-        {name: 'c', index: 3},
-      ]
-    },
+    sample: sample,
 
     // If the resource can have fields that are custom on a per-user basis, define a function to fetch the custom
     // field definitions. The result will be used to augment the sample.
     // outputFields: () => { return []; }
     // Alternatively, a static field definition should be provided, to specify labels for the fields
     outputFields: [
-      {key: 'id', label: 'ID'},
-      {key: 'createdAt1', label: 'Created At'},
-      {key: 'name', label: 'Name'},
-      {key: 'directions', label: 'Directions'},
-      {key: 'authorId', label: 'Author ID'},
-      {key: 'style', label: 'Style'},
-      {key: 'tags', label: 'Tags'},
-      {key: 'options', label: 'Options'},
+      {key: 'offline_message', label: 'Offline Message'},
+      {key: 'visitor', label: 'Visitor Info'},
+      {key: 'event', label: 'Event Type'},
+      {key: 'offline_message content', label: 'Offline Message Content'},
+      {key: 'offline_message email', label: 'Visitor\'s Email'},
+      {key: 'offline_message name', label: 'Visitor\' Name'},
+      {key: 'offline_message phone', label: 'Visitor\' Phone Number'},
+      {key: 'visitor email', label: 'Visitor\'s Email'},
+      {key: 'visitor name', label: 'Visitor\'s Name'},
+      {key: 'visitor country', label: 'Visitor\'s Country'},
+      {key: 'visitor city', label: 'Visitor\'s City'},
     ]
   }
 };
