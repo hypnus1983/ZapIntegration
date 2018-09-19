@@ -1,4 +1,4 @@
-  ## Zapier Triggers
+  # Zapier Triggers
  - [Chat Request](#chat-request-trigger-json-format) - Triggers when a visitor enters queue. 
  - [New Chat](#new-chat-trigger-json-format)  - Triggers when the chat is started. 
  - [Chat Wrap-up](#chat-wrap-up-trigger-json-format) - Triggers when an agent wrap-up the chat. 
