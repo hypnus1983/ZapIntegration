@@ -26,6 +26,18 @@
   | `visitor` | [Visitor](#visitor-info-json-format) | chat info | 
   | `wrapup` | [Wrapup](#wrapup-json-format) | chat info | 
   
+  ### Bot WebHook Trigger Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `senderType` | integer | sender type |
+  | `senderId` | integer | sender id  |
+  | `formValues` | array | formValues |
+  | `questionId` | string | question id  |
+  | `intentId` | integer | intent id  |
+  | `botId` | integer | bot id  |
+  | `chatId` | integer | id of the chat  |
+  | `visitor` | [Visitor](#visitor-info-json-format) | chat info |  
+  
   -----------------------------------------------------------------
  
   #### Visitor Info Json Format
