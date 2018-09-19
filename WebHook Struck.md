@@ -1,6 +1,6 @@
   ## Zapier Triggers
   | Name | Json | Description |    
-  | :--- | - | - | 
+  | :----------------------------------------- | - | - | 
   | `Chat Request` |  | Triggers when a visitor enters queue. |
  | `New Chat` | [New Chat](#new-chat-trigger-json-format)  | Triggers when the chat is started. |
  | `Chat Wrap-up` | [Chat Wrap-up](#chat-wrap-up-trigger-json-format) | Triggers when an agent wrap-up the chat. |
