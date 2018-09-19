@@ -54,3 +54,20 @@
   | `custom_fields` | array | custom fields |
   | `custom_variables` | array | custom variables |
   | `product_service` | string | product service |
+
+
+   ### OFFLINE MESSAGE JSON FORMAT
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `id` | integer | id of the offline message |
+  | `name` | string | name of the visitor |
+  | `phone` | string | phone number of visitor |
+  | `email` | string | visitor's email address |
+  | `company` | string | company info of visitor |
+  | `department` | integer | visitor's department id |
+  | `subject` | string | message subject |
+  | `time` | integer | message created time (1536742958450) |        
+  | `attachment` | array | attachment |
+  | `content` | string | message content |
+  | `custom_fields` | array | custom fields |
+  | `custom_variables` | array | custom variables |
