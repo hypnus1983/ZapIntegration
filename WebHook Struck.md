@@ -91,3 +91,29 @@
   | `content` | string | message content |
   | `custom_fields` | array | custom fields |
   | `custom_variables` | array | custom variables |
+  
+  ### Custom Fields Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `id` | integer | id of the custom field |
+  | `name` | string | name of the custom field |
+  | `value` | string | value of the custom field|
+  
+   ### Custom Variables Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `name` | string | name of the custom variable |
+  | `value` | string | value of the custom variable|
+  
+  ### Attachment Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `name` | string | name of the attachment |
+  | `uri` | string | uri of the attachment|
+  
+  ### Fields Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `id` | integer | id of the field |
+  | `name` | string | name of the field |
+  | `value` | string | value of the field|
