@@ -52,13 +52,13 @@
   ### Bot WebHook Trigger Json Format
   | Name | Type | Description |    
   | - | - | - | 
-  | `senderType` | integer | sender type |
-  | `senderId` | integer | sender id  |
-  | `formValues` | array | formValues |
-  | `questionId` | string | question id  |
+  ~~~| `formValues` | array | formValues |~~~
+  | `question` | string | question id  |
+  | `questionId` | string | question guid  |
   | `intentId` | integer | intent id  |
   | `botId` | integer | bot id  |
-  | `chatId` | integer | id of the chat  |
+  | `agentId` | integer | agent id  |
+  | `chatGuid` | string | guid of the chat  |
   | `visitor` | [Visitor](#visitor-info-json-format) | chat info |  
   
   -----------------------------------------------------------------
