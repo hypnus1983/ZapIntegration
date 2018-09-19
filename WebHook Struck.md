@@ -4,6 +4,12 @@
   | `event` | string | event type: 'chat_started' |
   | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |
  
+ ### Chat Ended Trigger Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `event` | string | event type: 'chat_ended' |
+  | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |
+  | `chat` | [Chat](#chat-info-json-format) | chat info |
  
   ### Visitor Info Json Format
   | Name | Type | Description |    
