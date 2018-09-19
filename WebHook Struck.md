@@ -30,8 +30,8 @@
   | `company` | string | company info |
   | `country` | string | country info |
   | `current_browsing` | string | currnet browsing page url |
-  | `custom_fields` | array | custom fields |
-  | `custom_variables` | array | custom variables |
+  | `custom_fields` | array of [Custom Field](#custom-field-json-format) | custom fields |
+  | `custom_variables` | array of [Custom Variable](#custom-variable-json-format) | custom variables |
   | `department` | integer | department id |
   | `email` | string | visitor's email address |
   | `phone` | string | phone number of visitor |
@@ -57,7 +57,7 @@
   | - | - | - | 
   | `id` | integer | id of the chat |
   | `name` | string | name of the visitor |
-  | `attachment` | array | attachment |
+  | `attachment` | [Attachment](#attachment-json-format) | attachment |
   | `chat_transcript` | string | chat's transcript |
   | `company` | string | company info of visitor |
   | `department` | integer | visitor's department id |
@@ -71,8 +71,8 @@
   | `rating` | integer | rating value |
   | `rating_comment` | string | rating's comment |
   | `wrap_up` | object | wrap up info |
-  | `custom_fields` | array | custom fields |
-  | `custom_variables` | array | custom variables |
+  | `custom_fields` | array of [Custom Field](#custom-field-json-format) | custom fields |
+  | `custom_variables` | array of [Custom Variable](#custom-variable-json-format) | custom variables |
   | `product_service` | string | product service |
 
 
@@ -87,19 +87,19 @@
   | `department` | integer | visitor's department id |
   | `subject` | string | message subject |
   | `time` | integer | message created time (1536742958450) |        
-  | `attachment` | array | attachment |
+  | `attachment` | [Attachment](#attachment-json-format) | attachment |
   | `content` | string | message content |
-  | `custom_fields` | array | custom fields |
-  | `custom_variables` | array | custom variables |
+  | `custom_fields` | array of [Custom Field](#custom-field-json-format) | custom fields |
+  | `custom_variables` | array of [Custom Variable](#custom-variable-json-format) | custom variables |
   
-  ### Custom Fields Json Format
+  ### Custom Field Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the custom field |
   | `name` | string | name of the custom field |
   | `value` | string | value of the custom field|
   
-   ### Custom Variables Json Format
+   ### Custom Variable Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `name` | string | name of the custom variable |
@@ -111,7 +111,7 @@
   | `name` | string | name of the attachment |
   | `uri` | string | uri of the attachment|
   
-  ### Fields Json Format
+  ### Field Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the field |
