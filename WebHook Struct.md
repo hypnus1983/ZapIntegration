@@ -52,7 +52,7 @@
   ### Bot WebHook Trigger Json Format
   | Name | Type | Description |    
   | - | - | - | 
-  | ~~~`formValues`~~~ | ~~~array~~~ | ~~~formValues~~~ |
+  | `formValues` | array of [Form](#form-json-format) | visitor form values |
   | `question` | string | question id  |
   | `questionId` | string | question guid  |
   | `intentId` | integer | intent id  |
@@ -170,3 +170,9 @@
   | `id` | integer | id of the field |
   | `name` | string | name of the field |
   | `value` | string | value of the field|
+  
+  #### Form Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `lable` | string | lable of the form |
+  | `value` | string | value of the form|
