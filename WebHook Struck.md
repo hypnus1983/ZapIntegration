@@ -25,6 +25,8 @@
   | `chat_id` | integer | id of the chat  |
   | `visitor` | [Visitor](#visitor-info-json-format) | chat info | 
   | `wrapup` | [Wrapup](#wrapup-json-format) | chat info | 
+  
+  -----------------------------------------------------------------
  
   #### Visitor Info Json Format
   | Name | Type | Description |    
