@@ -4,7 +4,7 @@
  - [Chat Wrap-up](#chat-wrap-up-trigger-json-format) - Triggers when an agent wrap-up the chat. 
  - [Finished Chat](#finished-chat-trigger-json-format) - Triggers when the chat is ended. 
  - [New Offline Message](#new-offline-message-trigger-json-format) - Triggers when a visitor leaves a message when all agents are offline. 
- - `Chat Transferred` - Triggers when the chat is transferred. 
+ - [Chat Transferred](#chat-transferred-trigger-json-format) - Triggers when the chat is transferred. 
  - [Bot Webhook](#bot-webhook-trigger-json-format) - Triggers once the Bot reply a visitor question with webhook response. The setting is similar to Webhooks by Zapier. [Examples](https://comm100corp.sharepoint.com/sites/ResearchandDevelopment/_layouts/OneNote.aspx?id=%2Fsites%2FResearchandDevelopment%2FSiteAssets%2FResearch%20and%20Development%20Notebook&wd=target%28Bot%20Research%20-%20Note.one%7CE79C8FEB-BF09-4E58-AF8F-00C8EE4BAEB1%2FBot%20Salesforce%20Integration%20Via%20Zapier%7C9784C339-8781-4A9D-B398-6A01B5233D18%2F%29) 
  
  ---------------------------------------------------------
@@ -33,6 +33,13 @@
   | `event` | string | event type: 'offline_message_submitted' |
   | `offline_message` | [Offline Message](#offline-message-json-format) | offline message info |
   | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |
+  
+  ### Chat Transferred Trigger Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `event` | string | event type: 'chat_transferred' |
+  | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |
+  | `chat` | [Chat](#chat-info-json-format) | chat info |
   
   ### Chat Wrap up Trigger Json Format
   | Name | Type | Description |    
