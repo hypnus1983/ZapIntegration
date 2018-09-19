@@ -52,7 +52,7 @@
   ### Bot WebHook Trigger Json Format
   | Name | Type | Description |    
   | - | - | - | 
-  ~~~| `formValues` | array | formValues |~~~
+  | ~~~`formValues`~~~ | array | formValues |
   | `question` | string | question id  |
   | `questionId` | string | question guid  |
   | `intentId` | integer | intent id  |
