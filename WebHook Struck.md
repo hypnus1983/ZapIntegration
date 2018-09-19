@@ -1,4 +1,4 @@
-### VISITOR INFO JSON FORMAT
+  ### VISITOR INFO JSON FORMAT
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the visitor |
@@ -10,8 +10,8 @@
   | `company` | string | company info |
   | `country` | string | country info |
   | `current_browsing` | string | currnet browsing page url |
-  | `custom_fields` | string | custom fields |
-  | `custom_variables` | string | custom variables |
+  | `custom_fields` | array | custom fields |
+  | `custom_variables` | array | custom variables |
   | `department` | integer | department id |
   | `email` | string | visitor's email address |
   | `phone` | string | phone number of visitor |
@@ -31,3 +31,26 @@
   | `time_zone` | string | time zone |
   | `visit_time` | integer | visit time (1536738453010)|
   | `visits` | integer | visit times|
+  
+  ### Chat INFO JSON FORMAT
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `id` | integer | id of the chat |
+  | `name` | string | name of the visitor |
+  | `attachment` | array | attachment |
+  | `chat_transcript` | string | chat's transcript |
+  | `company` | string | company info of visitor |
+  | `department` | integer | visitor's department id |
+  | `email` | string | visitor's email address |
+  | `phone` | string | phone number of visitor |
+  | `start_time` | integer | chat started time (1536738453010) |
+  | `end_time` | integer | chat ended time (1536738453010) |
+  | `waiting_time` | string | waiting time (such as: '6s') |
+  | `operator_comment` | string | operator's comment |
+  | `operators` | string | operators's name |
+  | `rating` | integer | rating value |
+  | `rating_comment` | string | rating's comment |
+  | `wrap_up` | object | wrap up info |
+  | `custom_fields` | array | custom fields |
+  | `custom_variables` | array | custom variables |
+  | `product_service` | string | product service |
