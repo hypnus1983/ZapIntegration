@@ -1,3 +1,10 @@
+### New Chat Trigger Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `event` | string | event type: 'chat_started' |
+  | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |
+ 
+ 
   ### Visitor Info Json Format
   | Name | Type | Description |    
   | - | - | - | 
