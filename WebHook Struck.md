@@ -26,7 +26,7 @@
   | `visitor` | [Visitor](#visitor-info-json-format) | chat info | 
   | `wrapup` | [Wrapup](#wrapup-json-format) | chat info | 
  
-  ### Visitor Info Json Format
+  #### Visitor Info Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the visitor |
@@ -60,7 +60,7 @@
   | `visit_time` | integer | visit time (1536738453010)|
   | `visits` | integer | visit times|
   
-  ### Chat Info Json Format
+  #### Chat Info Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the chat |
@@ -84,7 +84,7 @@
   | `product_service` | string | product service |
 
 
-  ### Offline Message Json Format
+  #### Offline Message Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the offline message |
@@ -100,7 +100,7 @@
   | `custom_fields` | array of [Custom Field](#custom-field-json-format) | custom fields |
   | `custom_variables` | array of [Custom Variable](#custom-variable-json-format) | custom variables |
   
-  ### Wrapup Json Format
+  #### Wrapup Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `category` | string | category of the wrapup |
@@ -108,26 +108,26 @@
   | `fields` | Array of [Field](#field-json-format) | fields of wrapup |
   | `time` | integer | wrap up time (1536742958450) |
   
-  ### Custom Field Json Format
+  #### Custom Field Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the custom field |
   | `name` | string | name of the custom field |
   | `value` | string | value of the custom field|
   
-   ### Custom Variable Json Format
+  #### Custom Variable Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `name` | string | name of the custom variable |
   | `value` | string | value of the custom variable|
   
-  ### Attachment Json Format
+  #### Attachment Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `name` | string | name of the attachment |
   | `uri` | string | uri of the attachment|
   
-  ### Field Json Format
+  #### Field Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the field |
