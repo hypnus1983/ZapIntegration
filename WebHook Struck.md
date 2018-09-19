@@ -1,4 +1,4 @@
-  ### VISITOR INFO JSON FORMAT
+  ### Visitor Info Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the visitor |
@@ -32,7 +32,7 @@
   | `visit_time` | integer | visit time (1536738453010)|
   | `visits` | integer | visit times|
   
-  ### Chat INFO JSON FORMAT
+  ### Chat Info Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the chat |
@@ -56,7 +56,7 @@
   | `product_service` | string | product service |
 
 
-   ### OFFLINE MESSAGE JSON FORMAT
+   ### Offline Message Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `id` | integer | id of the offline message |
