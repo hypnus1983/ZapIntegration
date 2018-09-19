@@ -1,15 +1,22 @@
-### New Chat Trigger Json Format
+  ### New Chat Trigger Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `event` | string | event type: 'chat_started' |
   | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |
  
- ### Chat Ended Trigger Json Format
+  ### Finished Chat Trigger Json Format
   | Name | Type | Description |    
   | - | - | - | 
   | `event` | string | event type: 'chat_ended' |
   | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |
   | `chat` | [Chat](#chat-info-json-format) | chat info |
+  
+   ### New Offline Message Trigger Json Format
+  | Name | Type | Description |    
+  | - | - | - | 
+  | `event` | string | event type: 'offline_message_submitted' |
+  | `offline_message` | [Offline Message](#offline-message-json-format) | visitor info |
+  | `visitor` | [Visitor](#visitor-info-json-format) | chat info |
  
   ### Visitor Info Json Format
   | Name | Type | Description |    
