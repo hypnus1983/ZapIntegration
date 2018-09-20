@@ -39,7 +39,7 @@
   | - | - | - | 
   | `event` | string | event type: 'chat_transferred' |
   | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |
-  | ~~`chat`~~ | [Chat](#chat-info-json-format) | chat info |
+  | ~~`chat`~~ | ~~[Chat](#chat-info-json-format)~~ | ~~chat info~~ |
   
   ### Chat Wrap up Trigger Json Format
   | Name | Type | Description |    
@@ -54,11 +54,11 @@
   | - | - | - | 
   | `formValues` | array of [Form](#form-json-format) | visitor form values |
   | `question` | string | question id  |
-  | ~~`questionId`~~ | string | question guid  |
-  | ~~`intentId`~~ | integer | intent id  |
-  | ~~`botId`~~ | integer | bot id  |
-  | ~~`agentId`~~ | integer | agent id  |
-  | ~~`chatGuid`~~ | string | guid of the chat  |
+  | ~~`questionId`~~ | ~~string~~ | ~~question guid~~  |
+  | ~~`intentId`~~ | ~~integer~~ | ~~intent id~~  |
+  | ~~`botId`~~ | ~~integer~~ | ~~bot id~~  |
+  | ~~`agentId`~~ | ~~integer~~ | ~~agent id ~~ |
+  | ~~`chatGuid`~~ | ~~string~~ | ~~guid of the chat~~  |
   | `visitor` | [Visitor](#visitor-info-json-format) | visitor info |  
   
   -----------------------------------------------------------------
