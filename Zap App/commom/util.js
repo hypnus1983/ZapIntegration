@@ -7,9 +7,10 @@ const _subscribeHook = (z, bundle, type) => {
       domain: bundle.authData.domain,
       zapId: bundle.meta.zap.id,
       zapierAccountId:bundle.authData._zapier_account_id,
+      raw: bundle
     };
     bundle.action = '_subscribeHook';
-    util.postLog(z, bundle);
+    _postLog(z, bundle);
 
     const options = {
       url: `https://${bundle.authData.domain}/api/v2/livechat/webhooks`,
@@ -26,7 +27,7 @@ const _subscribeHook = (z, bundle, type) => {
   
 const _unsubscribeHook = (z, bundle) => {
   bundle.action = '_unsubscribeHook';
-  util.postLog(z, bundle);
+  _postLog(z, bundle);
 
     const hookId = bundle.subscribeData.id;
   

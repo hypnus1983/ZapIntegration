@@ -16,10 +16,7 @@ describe('My App', () => {
         refresh_token: 'V9fguYl3LOLCbF_trrX2exDugFPqEG2SNWACnoVMps4SexHsX2QklHbAQDGRF2LqxYeiYwK5MR37Q6Gw879qtvNs2Zwl0yQUv2hlPMPXRi78i1PWtDkoNsuqZnK6Yv09FriYDCp0WBUpGo9MHrHea24GHpwuhrmLiiuDkGYdnPtvCPR6y-lSlfb59kXaU_5quJUvCItFM_fr5VkVZGo3-9dKe8xUYKOp5KmsZVWYuIcNdI852mJ1ipVozsYVuWE4Nj6wAo63P57ZI9NkWogn-w'
       },
       inputData:{
-        state:'123456',
-        redirect_uri:'https://www.test.com',
-        email: 'vincent@comm300.com',
-        siteId: '10000',     
+        email: 'vincent@comm300.com',  
       }
     };
 
