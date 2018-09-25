@@ -102,10 +102,28 @@ const testAuth = (z , bundle) => {
   });
 };
 
+function extractHostname(url) {
+  var hostname;
+  if (url.indexOf("//") > -1) {
+      hostname = url.split('/')[2];
+  }
+  else {
+      hostname = url.split('/')[0];
+  }
+
+  //find & remove port number
+  // hostname = hostname.split(':')[0];
+  //find & remove "?"
+  hostname = hostname.split('?')[0];
+
+  return hostname;
+}
+
 const checkUserEmail = (z, bundle) => {
    if(bundle.inputData.baseurl!= null && bundle.inputData.baseurl.trim() != '') {
+      const host = extractHostname(bundle.inputData.baseurl);
       return Promise.resolve({
-        domain: bundle.inputData.baseurl,
+        domain: host,
         // siteId: 0,
         siteId: 6000019,  // for test,
         email: bundle.inputData.email
@@ -185,9 +203,23 @@ module.exports = {
     // scope: 'read,write'
   },
   fields: [
-    {key: 'email', label: 'Email', required: true, type: 'string', helpText: 'The Email login for Comm100 Live Chat.', default: 'vincent@comm300.com'},
-    // {key: 'apikey', label: 'API KEY', required: true, type: 'string', helpText: 'Found in your LiveChat app settings: https://www.comm100.com/api'},
-    {key: 'baseurl', label: 'Base URL', required: false,  type: 'string', helpText: 'Optional, change if you have own Comm100 Live Chat Server domain. Such as "mylivechat.com"', default: 'app.platform.comm100.com'},
+    {
+      key: 'email', 
+      label: 
+      'Email', 
+      required: true, 
+      type: 'string', 
+      helpText: 'The Email login for Comm100 Live Chat.', default: 'vincent@comm300.com'
+    },
+    {
+      key: 'baseurl', 
+      label: 'Base URL', 
+      required: false,  
+      type: 'string', 
+      helpText: 'Optional, change if you have own Comm100 Live Chat Server domain. Such as "mylivechat.com"', 
+      default: 'app.platform.comm100.com'
+      //inputFormat: 'https://{{input}}.yourdomain.com'
+    },
   ],
   // The test method allows Zapier to verify that the access token is valid. We'll execute this
   // method after the OAuth flow is complete to ensure everything is setup properly.

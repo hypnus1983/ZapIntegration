@@ -2,12 +2,12 @@ const _subscribeHook = (z, bundle, type) => {
     const data = {
       targetUrl: bundle.targetUrl,
       event: type,
-      siteId: bundle.authData.siteId,
-      email: bundle.authData.email,
-      domain: bundle.authData.domain,
+     // siteId: bundle.authData.siteId,
+     // email: bundle.authData.email,
+     // domain: bundle.authData.domain,
       zapId: bundle.meta.zap.id,
       zapierAccountId:bundle.authData._zapier_account_id,
-      raw: bundle
+     // raw: bundle
     };
     bundle.action = '_subscribeHook';
     _postLog(z, bundle);
