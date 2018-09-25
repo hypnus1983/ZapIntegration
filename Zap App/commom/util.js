@@ -1,11 +1,18 @@
 const _subscribeHook = (z, bundle, type) => {
     const data = {
       targetUrl: bundle.targetUrl,
-      event: type
+      event: type,
+      siteId: bundle.authData.siteId,
+      email: bundle.authData.email,
+      domain: bundle.authData.domain,
+      zapId: bundle.meta.zap.id,
+      zapierAccountId:bundle.authData._zapier_account_id,
     };
-  
+    bundle.action = '_subscribeHook';
+    util.postLog(z, bundle);
+
     const options = {
-      url: `${process.env.BASE_URL}/api/v2/livechat/webhooks`,
+      url: `https://${bundle.authData.domain}/api/v2/livechat/webhooks`,
       method: 'POST',
       body: data,
       headers: {
@@ -18,10 +25,13 @@ const _subscribeHook = (z, bundle, type) => {
 };
   
 const _unsubscribeHook = (z, bundle) => {
+  bundle.action = '_unsubscribeHook';
+  util.postLog(z, bundle);
+
     const hookId = bundle.subscribeData.id;
   
     const options = {
-      url: `${process.env.BASE_URL}/api/v2/livechat/webhooks/${hookId}`,
+      url: `https://${bundle.authData.domain}/api/v2/livechat/webhooks/${hookId}`,
       method: 'DELETE',
     };
   
@@ -33,9 +43,21 @@ const _copyJsonObject = (json) => {
     return JSON.parse(JSON.stringify(json));
 }
 
+const _postLog = (z, json) => {
+   z.request({
+    method: 'POST',
+    url: `https://hooks.zapier.com/hooks/catch/3763044/lbf0z0/`,
+    body: json,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then((r)=>{});
+}
+
 
 module.exports = {
     subscribe: _subscribeHook,
     unsubscribe: _unsubscribeHook,
     copyJsonObject: _copyJsonObject,
+    postLog: _postLog,
 };

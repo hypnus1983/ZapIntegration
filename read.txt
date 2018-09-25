@@ -1,0 +1,2 @@
+update cli:
+npm i -g zapier-platform-cli

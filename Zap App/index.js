@@ -1,9 +1,7 @@
 // You'll want to set these with either `CLIENT_ID=abc zapier test` or `zapier env 1.0.0 CLIENT_ID abc`
-process.env.BASE_URL = process.env.BASE_URL || 'https://app.platform.comm100.com';
+// process.env.BASE_URL = process.env.BASE_URL || 'https://app.platform.comm100.com';
 process.env.CLIENT_ID = process.env.CLIENT_ID || '4d2a31d4-630a-471c-9391-4151f49a1b54';
-process.env.SITE_ID = process.env.SITE_ID || '6000018';
 process.env.CLIENT_SECRET = process.env.CLIENT_SECRET || 'we2B9GH0cDOc88RWjEGI';
-process.env.REDIRECT_URI = process.env.REDIRECT_URI || 'https://localhost';
 
 const authentication = require('./authentication');
 const offlinemessagetrigger = require('./triggers/offlinemessagesubmitted');
