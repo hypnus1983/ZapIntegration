@@ -7,6 +7,11 @@ const authentication = require('./authentication');
 const offlinemessagetrigger = require('./triggers/offlinemessagesubmitted');
 const chatstartedtrigger = require('./triggers/chatstarted');
 const chatendedtrigger = require('./triggers/chatended');
+// const bottrigger = require('./triggers/bothook');
+const chatrequest = require('./triggers/chatrequest');
+const chatwrapup = require('./triggers/chatwrapup');
+const chattransferred = require('./triggers/chattransferred');
+
 
 
 // To include the Authorization header on all outbound requests, simply define a function here.
@@ -43,6 +48,10 @@ const App = {
     [chatendedtrigger.key]: chatendedtrigger,
     [chatstartedtrigger.key]: chatstartedtrigger,
     [offlinemessagetrigger.key]: offlinemessagetrigger,
+    // [bottrigger.key]: bottrigger,
+    [chatrequest.key]: chatrequest,
+    [chatwrapup.key]: chatwrapup,
+    [chattransferred.key]: chattransferred,
   },
 
   // If you want your searches to show up, you better include it here!

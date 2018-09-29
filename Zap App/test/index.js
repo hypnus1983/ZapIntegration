@@ -9,7 +9,15 @@ const chatendedtrigger = require('../triggers/chatended');
 
 describe('My App', () => {
   
-  it('includes the access token in future requests', (done) => {
+  it('testtesttest', (done) => {
+    const json = {};
+    json["a"] = "aa";
+    json["b,{}\"'b"] = "bb";
+    console.log(json);
+    done();
+  });
+
+ /* it('includes the access token in future requests', (done) => {
     const bundle = {
       authData: {
         access_token: 'YX8iGCFzzEdBwWJKbsyFk876eSEuJCFQieo--wxK-8RxzlO6EJndOT-cuZPyySRHdRkuJM1kGDJnAIXAaV0fqFy8JjCtVqKFPsCAviXluAjmPcSx2loRpFTUhEE_B1LJ-4cJgp--koAx75sjr3oTNXEr55PDpn4xQmxRKxFUfgvPDwUxcUzV3apRxjjq3WGR_PChpYpIA1egg6v_Spa9Q_TQdxOifjz56fnLXdWWBq7-EO4yarKqUvzVaPiB1R40L94yOvqsYRFevaccoZWX6w',
@@ -28,7 +36,7 @@ describe('My App', () => {
         done();
       })
       .catch(done);
-  });
+  }); */
 
   /* it('includes the access token in future requests', (done) => {
     const bundle = {

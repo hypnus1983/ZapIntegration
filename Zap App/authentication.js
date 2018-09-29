@@ -79,7 +79,7 @@ const refreshAccessToken = (z, bundle) => {
 
 const testAuth = (z , bundle) => {
   bundle.action = 'testAuth';
-  // util.postLog(z, bundle);
+ // util.postLog(z, bundle);
 
   // Normally you want to make a request to an endpoint that is either specifically designed to test auth, or one that
   // every user will have access to, such as an account or profile endpoint like /me.
@@ -88,15 +88,20 @@ const testAuth = (z , bundle) => {
     url: `https://${bundle.authData.domain}/api/v2/livechat/cannedMessages`,
     headers: {
       'Authorization': `bearer ${bundle.authData.access_token}`
-    },
+    }
   });
 
   // This method can return any truthy value to indicate the credentials are valid.
   // Raise an error to show
   return promise.then((response) => {
     //console.log(response);
-     if (response.status === 401) {
-      throw new Error('The access token you supplied is not valid');
+    // util.postLog(z, response.json);
+     if (response.status != 200) {
+       if(response.json) {
+        throw new Error(response.json.Message || response.json.ErrorMessage);
+      }else{
+        throw new Error('The access token you supplied is not valid');
+      }
     }
     const result = JSON.parse(JSON.stringify(response.json));
   });

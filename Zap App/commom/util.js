@@ -22,7 +22,16 @@ const _subscribeHook = (z, bundle, type) => {
     };
   
     return z.request(options)
-      .then((response) => JSON.parse(response.content));
+      .then((response) => { 
+          if (response.status != 200) {
+            if(response.json) {
+            throw new Error(response.json.Message || response.json.ErrorMessage);
+          }else{
+            throw new Error('SubscribeHook error.');
+          }
+        }
+        return JSON.parse(response.content);
+       });
 };
   
 const _unsubscribeHook = (z, bundle) => {
