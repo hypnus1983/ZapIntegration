@@ -37,19 +37,19 @@
  	,[OwnerType])
  	VALUES
  	(
- 	 "ZapAppClient",
- 	 "95ABC840-53B4-42D2-AB48-35655E79E914",
-     "any",
+ 	 'ZapAppClient',
+ 	 '95ABC840-53B4-42D2-AB48-35655E79E914',
+     'any',
       1.2,
-      "https://zapier.com/dashboard/auth/oauth/return/App6439CLIAPI/",
+      'https://zapier.com/dashboard/auth/oauth/return/App6439CLIAPI/',
       12,
       720,
       0,
       1,
       getdate(),
-      "6DBADD8D-6FCF-45B6-ABC9-3DDE35C02A8B",
+      '6DBADD8D-6FCF-45B6-ABC9-3DDE35C02A8B',
       0,
-      "Partner"  
+      'Partner'  
  	)
 ```
 

@@ -8,8 +8,28 @@
 		"company": "",
 		"country": "China",
 		"current_browsing": "https:\/\/app.platform.comm100.com\/LiveChatFunc\/PlanPreview.aspx?codePlanId=37&SSL=1&siteid=6000018",
-		"custom_fields": null,
-		"custom_variables": null,
+		"custom_fields": [
+			{
+				"id": 1,
+				"name": "test field1",
+				"value": "this is field1"
+			},
+			{
+				"id": 2,
+				"name": "test field2",
+				"value": "this is field2"
+			}
+		],
+		"custom_variables": [
+			{
+				"name": "testvariable1",
+				"value": "this is variable1"
+			},
+			{
+				"name": "testvariable2",
+				"value": "this is variable2"
+			}
+		],
 		"department": -1,
 		"email": "roger@test.com",
 		"first_visit_time": "\/Date(1536738453010)\/",

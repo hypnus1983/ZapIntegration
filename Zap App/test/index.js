@@ -6,14 +6,16 @@ const zapier = require('zapier-platform-core');
 const App = require('../index');
 const appTester = zapier.createAppTester(App);
 const chatendedtrigger = require('../triggers/chatended');
+const util = require('../commom/util');
+const sample = require('../samples/chatstarted_sample.json');
 
 describe('My App', () => {
   
-  it('testtesttest', (done) => {
-    const json = {};
-    json["a"] = "aa";
-    json["b,{}\"'b"] = "bb";
-    console.log(json);
+  it('testtesttest', (done) => {   
+    const copy = util.copyJsonObject(sample);
+    util.reformatCustomFields(copy.visitor);
+    util.reformatCustomVariables(copy.visitor);
+    console.log(JSON.stringify(copy, null, 2));
     done();
   });
 

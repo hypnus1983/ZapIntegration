@@ -15,6 +15,7 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
+    "url-exists": "^1.0.3",
     "xml2js": "^0.4.19",
     "zapier-platform-core": "7.2.2"
   },

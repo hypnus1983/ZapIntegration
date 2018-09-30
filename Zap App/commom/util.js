@@ -51,7 +51,7 @@ const _unsubscribeHook = (z, bundle) => {
 
 const _copyJsonObject = (json) => {
     return JSON.parse(JSON.stringify(json));
-}
+};
 
 const _postLog = (z, json) => {
    z.request({
@@ -62,12 +62,42 @@ const _postLog = (z, json) => {
       'Content-Type': 'application/json'
     }
   }).then((r)=>{});
-}
+};
 
+const _reformatCustomFields = (json) => {
+  if(json && json.custom_fields && Array.isArray(json.custom_fields)) {
+     var newFields = {};
+     for(var i=0; i<json.custom_fields.length;i++){
+          const field = json.custom_fields[i];
+          newFields[field.name] = {
+            id: field.id,
+            value: field.value
+          };
+        };
+      json.custom_fields = newFields; 
+   }
+   return json;
+};
+
+const _reformatCustomVariables = (json) => {
+  if(json && json.custom_variables && Array.isArray(json.custom_variables)) {
+     var newVariables = {};
+     for(var i=0; i<json.custom_variables.length;i++){
+         const variable = json.custom_variables[i];
+         newVariables[variable.name] = {
+         'value': variable.value
+        };
+     }
+     json.custom_variables = newVariables;
+  }
+  return json;
+};
 
 module.exports = {
     subscribe: _subscribeHook,
     unsubscribe: _unsubscribeHook,
     copyJsonObject: _copyJsonObject,
     postLog: _postLog,
+    reformatCustomFields: _reformatCustomFields,
+    reformatCustomVariables: _reformatCustomVariables
 };
