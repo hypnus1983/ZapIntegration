@@ -11,12 +11,23 @@ const sample = require('../samples/chatstarted_sample.json');
 
 describe('My App', () => {
   
-  it('testtesttest', (done) => {   
-    const copy = util.copyJsonObject(sample);
-    util.reformatCustomFields(copy.visitor);
-    util.reformatCustomVariables(copy.visitor);
-    console.log(JSON.stringify(copy, null, 2));
-    done();
+  it('includes the access token in future requests', (done) => {
+    const bundle = {
+      authData:{
+        email: 'zap1@test.com',  
+        baseurl: 'app.platform.comm100.com',
+        apikey: 'cf232bfb65a34861b77d7a7c77ef56a8'
+      }
+    };
+
+    appTester(App.authentication.test, bundle)
+      .then((response) => {
+        //json_response.should.have.property('username')
+        console.log('----------------------');
+        console.log(response);
+        done();
+      })
+      .catch(done);
   });
 
  /* it('includes the access token in future requests', (done) => {

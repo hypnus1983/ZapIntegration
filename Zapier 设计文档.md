@@ -4,6 +4,18 @@
 
 ## 1. 数据库设计
 
+- General库内新增表 `t_LiveChat_ZapTemplate`
+
+  | Seq  | Name             | Type           | Nullable | Default | Version | Remark                                     |
+  | ---- | ---------------- | -------------- | -------- | ------- | ------- | ------------------------------------------ |
+  | 1    | Id               | int            | no       | 0       | 1.0     | Id of the zap template.                    |
+  | 2    | Summary          | nvarchar(2048) | no       | ''      | 1.0     | Summary of the zap template.               |
+  | 3    | AppName          | nvarchar(128)  | no       | ''      | 1.0     | Name of APP.                               |
+  | 4    | AppIcon          | Image          | no       | 0x00    | 1.0     | Icon data of the APP.                      |
+  | 5    | Link             | nvarchar(512)  | no       | ''      | 1.0     | Link of the template                       |
+  | 6    | IfShownByDefault | bit            | no       | 0       | 1.0     | Is the template  shown in list by default. |
+  | 7    | SortOrder        | int            | no       | 0       | 1.0     | Sort order of the template.                |
+
 - 表t_LiveChat_Webhook新增一列ZapId.
 
 | Seq  | Name             | Type           | Nullable | Default | Version | Remark                                       |
@@ -59,7 +71,7 @@
 
 ### 2.1 LiveChat修改
 
-- EnumWebhookEvent枚举增加 **enumChatRequest**, **enumChatTransferred** 2项：
+- EnumWebhookEvent枚举增加 **enumChatRequestd**, **enumChatTransferred** 2项：
 
   ```c#
   namespace Com.Comm100.LiveChat.Framework.Emum
@@ -71,37 +83,60 @@
           enumChatEnds = 3;
           enumChatWrapup = 4;
           enumOperatorEventNotification = 5;
-          enumChatRequest = 6;
+          enumChatRequestd = 6;
           enumChatTransferred  = 7
       }
   }
   ```
 
-
 ### 2.2 LiveChatWebAPI修改
 
-LiveChatWebAPI新增以下接口。该接口主要用于用户生成Zap时APP需要通过该API拉取一个Sample Data来做之后的字段映射配置。
+LiveChatWebAPI原Webhook的`Create New Webhook`接口修改，WebHook Json Format内增加ZapId字段，且event新增支持`chatrequested`,`chattransferred`.
+
+- `WebHooks` - WebHooks Manage
+  - `POST /api/v2/livechat/webhooks` -Create a new webhooks
+
+###### webhook json format
+
+| Name      | Type    | Read-only | Mandatory | Description                                                  |
+| --------- | ------- | --------- | --------- | ------------------------------------------------------------ |
+| id        | integer | yes       | no        | id of webhook                                                |
+| event     | string  | no        | yes       | event of webhook,including `offlineMessageSubmitted`, `chatStarted`, `chatEnded`,`chatWrapedUp`,`chatRequested`,`chatTransferred` |
+| targetUrl | string  | no        | yes       | target url of the webhook.                                   |
+| zapId     | integer | no        | no        | id of the Zap.                                               |
+
+###### Endpoint
+
+`POST /api/v2/livechat/webhooks`
+
+- Parameters: [Webhook](#webhook-json-format)
+
+- Response: [Webhook](#webhook-json-format)
+
+   
+
+LiveChatWebAPI新增以下接口。这些接口主要用于用户生成Zap时APP需要通过该API拉取一个Sample Data来做之后的字段映射配置。
 
 所有接口都要求Operator有Manage Integration权限，否则报`No Permission` 错误。 在APP端的权限验证也会调用这些接口进行权限测试。
 
 - `ZapSamples` - Zap Samples Manage
 
-  + `GET /api/v2/livechat/zapsamples/chatrequest`- Get a sample data for  Chat Request trigger
+  + `GET /api/v2/livechat/zapsamples/chatrequestd`- Get a sample data for  Chat Requestd trigger
 
-  - `GET /api/v2/livechat/zapsamples/chatstarts`- Get a sample data for New Chat trigger
+  - `GET /api/v2/livechat/zapsamples/chatstarts`- Get a sample data for Chat Started trigger
 
-  - `GET /api/v2/livechat/zapsamples/chatends`- Get a sample data for  Finished Chat trigger
+  - `GET /api/v2/livechat/zapsamples/chatends`- Get a sample data for Chat Ended trigger
 
   - `GET /api/v2/livechat/zapsamples/OfflineMessageSubmitted` - Get a sample data for  OfflineMessageSubmitted trigger
 
-  - `GET /api/v2/livechat/zapsamples/chatwrapup`- Get a sample data for  Chat Wrap Up trigger
+  - `GET /api/v2/livechat/zapsamples/chatwrapup`- Get a sample data for  Chat Wrapped Up trigger
 
   - `GET /api/v2/livechat/zapsamples/chattransferred`- Get a sample data for  Chat Transferred trigger
 
 
-##### 2.2.1 Get Chat Request Sample
+##### 2.2.1 Get Chat Requestd Sample
 
-###### Chat Request Json Format
+###### Chat Requestd Json Format
 
 | Name      | Type                                 | Description                |
 | --------- | ------------------------------------ | -------------------------- |
@@ -113,13 +148,13 @@ LiveChatWebAPI新增以下接口。该接口主要用于用户生成Zap时APP需
 `GET /api/v2/livechat/zapsamples/chatrequest` 
 
 - Parameters: No parameters
-- Response:  [Chat Request](#chat-request-json-format) 
+- Response:  [Chat Requestd](#chat-requestd-json-format) 
 
 
 
-#####  2.2.2 Get New Chat Sample
+#####  2.2.2 Get Chat Started Sample
 
-###### New Chat Json Format
+###### Chat Started Json Format
 
 | Name      | Type                                 | Description                |
 | --------- | ------------------------------------ | -------------------------- |
@@ -131,13 +166,13 @@ LiveChatWebAPI新增以下接口。该接口主要用于用户生成Zap时APP需
 `GET /api/v2/livechat/zapsamples/chatstarts`
 
 - Parameters: No parameters
-- Response: [New Chat](#new-chat-json-format)
+- Response: [Chat Started](#chat-started-json-format)
 
 
 
-##### 2.2.3  Get  Finished Chat Sample
+##### 2.2.3  Get  Chat Ended Sample
 
-###### Finished Chat Json Format
+###### Chat Ended Json Format
 
 | Name      | Type                                 | Description              |
 | --------- | ------------------------------------ | ------------------------ |
@@ -150,7 +185,7 @@ LiveChatWebAPI新增以下接口。该接口主要用于用户生成Zap时APP需
 `GET /api/v2/livechat/zapsamples/chatends`
 
 - Parameters : No Parameters
-- Response: [Finished Chat](#finished-chat-json-format)
+- Response: [Chat Ended](#chat-ended-json-format)
 
 
 
@@ -192,9 +227,9 @@ LiveChatWebAPI新增以下接口。该接口主要用于用户生成Zap时APP需
 
 
 
-##### 2.2.6 Get Chat WrapUp Sample
+##### 2.2.6 Get Chat Wrapped Up Sample
 
-###### Chat WrapUp Json Format
+###### Chat Wrapped Up Json Format
 
 | Name      | Type                                 | Description                  |
 | --------- | ------------------------------------ | ---------------------------- |
@@ -208,7 +243,7 @@ LiveChatWebAPI新增以下接口。该接口主要用于用户生成Zap时APP需
 `GET /api/v2/livechat/zapsamples/chatwrapup`
 
 - Parameters : No Parameters
-- Response: [Chat Wrapup](#chat-wrapup-json-format)
+- Response: [Chat Wrapped Up](#chat-wrapped-up-json-format)
 
 
 

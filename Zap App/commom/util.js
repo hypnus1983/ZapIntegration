@@ -1,19 +1,20 @@
-const _subscribeHook = (z, bundle, type) => {
+const _subscribeHook = async function(z, bundle, type) {
     const data = {
       targetUrl: bundle.targetUrl,
       event: type,
-     // siteId: bundle.authData.siteId,
-     // email: bundle.authData.email,
-     // domain: bundle.authData.domain,
       zapId: bundle.meta.zap.id,
       zapierAccountId:bundle.authData._zapier_account_id,
-     // raw: bundle
     };
     bundle.action = '_subscribeHook';
     _postLog(z, bundle);
 
+    var info = await _checkUserEmail(z, bundle)
+    .then(response =>{
+        return response;
+    }); 
+
     const options = {
-      url: `https://${bundle.authData.domain}/api/v2/livechat/webhooks`,
+      url: `https://${info.domain}/api/v2/livechat/webhooks`,
       method: 'POST',
       body: data,
       headers: {
@@ -34,14 +35,16 @@ const _subscribeHook = (z, bundle, type) => {
        });
 };
   
-const _unsubscribeHook = (z, bundle) => {
-  bundle.action = '_unsubscribeHook';
-  _postLog(z, bundle);
+const _unsubscribeHook = async function(z, bundle) { 
+    var info = await _checkUserEmail(z, bundle)
+    .then(response =>{
+        return response;
+    }); 
 
     const hookId = bundle.subscribeData.id;
   
     const options = {
-      url: `https://${bundle.authData.domain}/api/v2/livechat/webhooks/${hookId}`,
+      url: `https://${info.domain}/api/v2/livechat/webhooks/${hookId}`,
       method: 'DELETE',
     };
   
@@ -93,11 +96,78 @@ const _reformatCustomVariables = (json) => {
   return json;
 };
 
+const _checkUserEmail = (z, bundle) => {
+  if(bundle.authData.baseurl!= null && bundle.authData.baseurl.trim() != '') {
+     const host = extractHostname(bundle.authData.baseurl);
+     return Promise.resolve({
+       domain: host,
+       // siteId: 0,
+       siteId: 6000019,  // for test,
+       email: bundle.authData.email
+     });
+  }else{
+     const promise =  z.request({
+       method: 'POST',
+       url: `http://route.comm100.com/routeserver/routeservice.asmx`,
+       body: `<?xml version="1.0" encoding="utf-8"?>\r\n<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n  <soap:Body>\r\n    <CheckUserEmail xmlns="http://tempuri.org/">\r\n      <guid>EBB97B32-60FE-4DE9-861E-40D0C2299D54</guid>\r\n      <email>${bundle.authData.email}</email>\r\n    </CheckUserEmail>\r\n  </soap:Body>\r\n</soap:Envelope>`,
+       headers: {
+         'content-type': 'text/xml',
+       }
+     });
+
+     return promise.then((response) => {
+       var xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
+       let info = {};
+       xmlParser.parseString(response.content, function (err, parsedResult) {
+         if(err) {
+           throw new z.errors.HaltedError('Parse XML Error while Check User Email.')
+         }
+         const result = parsedResult['soap:Envelope']['soap:Body']['CheckUserEmailResponse']['CheckUserEmailResult'];
+         const error = result['Error']['_errorString'];
+         if(error) {
+           throw new z.errors.HaltedError(`Check User Email Error : ${error}.`);
+         }
+         // util.postLog(z, result);
+         const domain = result['PlatformDomain'];
+         const siteid = result['SiteId'];
+         if(siteid == 0) {
+           throw new z.errors.HaltedError('Check User Email Error : Site id returnd 0. Make sure the email exists.');
+         }
+         info = {
+           domain: domain,
+           // siteId: siteid,
+           siteId: 6000019,  // for test,
+           email: bundle.authData.email,
+         };
+       });
+       return info;
+     });
+ }
+}
+
+function extractHostname(url) {
+  var hostname;
+  if (url.indexOf("//") > -1) {
+      hostname = url.split('/')[2];
+  }
+  else {
+      hostname = url.split('/')[0];
+  }
+
+  //find & remove port number
+  // hostname = hostname.split(':')[0];
+  //find & remove "?"
+  hostname = hostname.split('?')[0];
+
+  return hostname;
+}
+
 module.exports = {
     subscribe: _subscribeHook,
     unsubscribe: _unsubscribeHook,
     copyJsonObject: _copyJsonObject,
     postLog: _postLog,
     reformatCustomFields: _reformatCustomFields,
-    reformatCustomVariables: _reformatCustomVariables
+    reformatCustomVariables: _reformatCustomVariables,
+    checkUserEmail: _checkUserEmail
 };

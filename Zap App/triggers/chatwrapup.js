@@ -2,7 +2,7 @@ const sample = require('../samples/chatended_sample.json');
 const util = require('../commom/util');
 
 const subscribeHook = (z, bundle) => { 
-  return util.subscribe(z, bundle, 'chatwrapup')
+  return util.subscribe(z, bundle, 'chatwrapedup')
 };
 
 const unsubscribeHook = (z, bundle) => {
@@ -21,10 +21,10 @@ const getFallbackRealChatWrapup = (z, bundle) => {
 
 module.exports = {
   key: 'chat_warpup',
-  noun: 'Chat Wrap-Up',
+  noun: 'Chat Wrapped Up',
   display: {
-    label: 'Chat Wrap-Up',
-    description: 'Trigger when agent save chat wrap-up form.'
+    label: 'Chat Wrapped Up',
+    description: 'Trigger when chat is wrapped up.'
   },
   operation: {
     type: 'hook',

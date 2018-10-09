@@ -186,22 +186,22 @@ const checkUrl = (z, url) => {
 }
 
 const getAuthorizeUrl = (z, bundle) => {  
-  return checkUserEmail(z, bundle).then((info) => {
+  return checkUserEmail(z, bundle).then(async function(info){
     let url = `https://${info.domain}/`;
-    return checkUrl(z, url)
+    await checkUrl(z, url)
       .then(code =>{
          if(code == 404) {
-          throw new z.errors.HaltedError(`Invalide URL : ${url}.`);
-        }
-        url += `OAuthServer/oauth/authorize?`;
-        url += `client_id=${process.env.CLIENT_ID}`;
-        url += `&state=${bundle.inputData.state}`;
-        url += `&redirect_uri=${bundle.inputData.redirect_uri}`;
-        url += `&siteId=${info.siteId}`
-        url += `&response_type=code`;
-        url += `&email=${bundle.inputData.email}`;
-        return url; 
+          throw new z.errors.HaltedError(`Invalid URL : ${url} .`);
+         }
       });
+      url += `OAuthServer/oauth/authorize?`;
+      url += `client_id=${process.env.CLIENT_ID}`;
+      url += `&state=${bundle.inputData.state}`;
+      url += `&redirect_uri=${bundle.inputData.redirect_uri}`;
+      url += `&siteId=${info.siteId}`
+      url += `&response_type=code`;
+      url += `&email=${bundle.inputData.email}`;
+      return url; 
   });
 };
 

@@ -20,10 +20,10 @@ const getFallbackRealChatRequest = (z, bundle) => {
 };
 
 module.exports = {
-  key: 'chat_request',
-  noun: 'Chat Request',
+  key: 'chat_requestd',
+  noun: 'Chat Requestd',
   display: {
-    label: 'Chat Request',
+    label: 'Chat Requestd',
     description: 'Trigger when a new chat is requested.'
   },
   operation: {

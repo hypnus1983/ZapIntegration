@@ -3,7 +3,8 @@
 process.env.CLIENT_ID = process.env.CLIENT_ID || '4d2a31d4-630a-471c-9391-4151f49a1b54';
 process.env.CLIENT_SECRET = process.env.CLIENT_SECRET || 'we2B9GH0cDOc88RWjEGI';
 
-const authentication = require('./authentication');
+//const authentication = require('./authentication');
+const authentication = require('./authentication-basic');
 const offlinemessagetrigger = require('./triggers/offlinemessagesubmitted');
 const chatstartedtrigger = require('./triggers/chatstarted');
 const chatendedtrigger = require('./triggers/chatended');
@@ -12,13 +13,20 @@ const chatrequest = require('./triggers/chatrequest');
 const chatwrapup = require('./triggers/chatwrapup');
 const chattransferred = require('./triggers/chattransferred');
 
-
-
 // To include the Authorization header on all outbound requests, simply define a function here.
 // It runs runs before each request is sent out, allowing you to make tweaks to the request in a centralized spot
 const includeBearerToken = (request, z, bundle) => {
   if (bundle.authData.access_token) {
     request.headers.Authorization = `Bearer ${bundle.authData.access_token}`;
+  }
+  return request;
+};
+
+const includeBasicToken = (request, z, bundle) => {
+  if (bundle.authData.email && bundle.authData.apikey) {
+    var b = new Buffer(`${bundle.authData.email}:${bundle.authData.apikey}`);
+    var s = b.toString('base64');  
+    request.headers.Authorization = `Basic ${s}`;
   }
   return request;
 };
@@ -33,7 +41,8 @@ const App = {
   authentication: authentication,
 
   beforeRequest: [
-    includeBearerToken
+    //includeBearerToken
+    includeBasicToken
   ],
 
   afterResponse: [
