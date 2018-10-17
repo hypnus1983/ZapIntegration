@@ -14,13 +14,13 @@ describe('My App', () => {
   it('includes the access token in future requests', (done) => {
     const bundle = {
       authData:{
-        email: 'zap1@test.com',  
+        email: 'lizzzhang2017@gmail.com',  
         baseurl: 'app.platform.comm100.com',
-        apikey: 'cf232bfb65a34861b77d7a7c77ef56a8'
+        password: '111111111'
       }
     };
 
-    appTester(App.authentication.test, bundle)
+    appTester(App.authentication.sessionConfig.perform, bundle)
       .then((response) => {
         //json_response.should.have.property('username')
         console.log('----------------------');

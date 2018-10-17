@@ -1,3 +1,5 @@
+var xml2js = require('xml2js');
+
 const _subscribeHook = async function(z, bundle, type) {
     const data = {
       targetUrl: bundle.targetUrl,
@@ -5,8 +7,8 @@ const _subscribeHook = async function(z, bundle, type) {
       zapId: bundle.meta.zap.id,
       zapierAccountId:bundle.authData._zapier_account_id,
     };
-    bundle.action = '_subscribeHook';
-    _postLog(z, bundle);
+   // bundle.action = '_subscribeHook';
+   // _postLog(z, bundle);
 
     var info = await _checkUserEmail(z, bundle)
     .then(response =>{
@@ -67,34 +69,6 @@ const _postLog = (z, json) => {
   }).then((r)=>{});
 };
 
-const _reformatCustomFields = (json) => {
-  if(json && json.custom_fields && Array.isArray(json.custom_fields)) {
-     var newFields = {};
-     for(var i=0; i<json.custom_fields.length;i++){
-          const field = json.custom_fields[i];
-          newFields[field.name] = {
-            id: field.id,
-            value: field.value
-          };
-        };
-      json.custom_fields = newFields; 
-   }
-   return json;
-};
-
-const _reformatCustomVariables = (json) => {
-  if(json && json.custom_variables && Array.isArray(json.custom_variables)) {
-     var newVariables = {};
-     for(var i=0; i<json.custom_variables.length;i++){
-         const variable = json.custom_variables[i];
-         newVariables[variable.name] = {
-         'value': variable.value
-        };
-     }
-     json.custom_variables = newVariables;
-  }
-  return json;
-};
 
 const _checkUserEmail = (z, bundle) => {
   if(bundle.authData.baseurl!= null && bundle.authData.baseurl.trim() != '') {
@@ -131,7 +105,7 @@ const _checkUserEmail = (z, bundle) => {
          const domain = result['PlatformDomain'];
          const siteid = result['SiteId'];
          if(siteid == 0) {
-           throw new z.errors.HaltedError('Check User Email Error : Site id returnd 0. Make sure the email exists.');
+           throw new z.errors.HaltedError('Account Not Found: This email does not exist in the Comm100 account system. ');
          }
          info = {
            domain: domain,
@@ -143,6 +117,18 @@ const _checkUserEmail = (z, bundle) => {
        return info;
      });
  }
+}
+
+const _checkUrl = (z, url) => {
+  const promise = z.request({
+    method: 'HEAD',
+    url: url
+  });
+  return promise.then((response) =>{
+     return response.status;
+  }).catch((reason)=>{
+    return 404;
+  });
 }
 
 function extractHostname(url) {
@@ -162,12 +148,38 @@ function extractHostname(url) {
   return hostname;
 }
 
+const _getSample = async function(z, bundle, type){
+  var info = await _checkUserEmail(z, bundle)
+            .then(response =>{
+                return response;
+            });
+
+  const options = {
+    url: `https://${info.domain}/api/v2/livechat/zapsamples/${type}`,
+    method: 'GET',
+  };
+
+  return z.request(options)
+    .then((response) =>
+      {
+        if (response.status != 200) {
+          if(response.json) {
+            throw new Error(response.json.Message || response.json.ErrorMessage);
+          }else{
+            throw new Error('SubscribeHook error.');
+          }
+        }
+        return response.json;
+      }
+    );
+}
+
 module.exports = {
     subscribe: _subscribeHook,
     unsubscribe: _unsubscribeHook,
     copyJsonObject: _copyJsonObject,
     postLog: _postLog,
-    reformatCustomFields: _reformatCustomFields,
-    reformatCustomVariables: _reformatCustomVariables,
-    checkUserEmail: _checkUserEmail
+    checkUserEmail: _checkUserEmail,
+    checkUrl: _checkUrl,
+    getSample: _getSample
 };

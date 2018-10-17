@@ -1,5 +1,6 @@
 const sample = require('../samples/offlinemessage_sample.json');
 const util = require('../commom/util');
+const helper = require('../commom/jsonhelper');
 
 const subscribeHook = (z, bundle) => { 
   return util.subscribe(z, bundle, 'offlinemessagesubmitted')
@@ -17,21 +18,16 @@ const getOfflineMessage = (z, bundle) => {
 };
 
 const getFallbackRealOfflineMessage = (z, bundle) => {
-  // For the test poll, you should get some real data, to aid the setup process.
- /* const options = {
-    url: 'http://57b20fb546b57d1100a3c405.mockapi.io/api/recipes/',
-    params: {
-      style: bundle.inputData.style
-    }
-  };
-
-  return z.request(options)
-    .then((response) => JSON.parse(response.content));*/
-    
-   const json = sample;
+  var sample = util.getSample('offlinemessagesubmitted');
+   const json = reformat(sample);
    return [json];
 };
 
+const reformat = (json) => {
+  json.visitor = helper.reformatVisitorInfo(json.visitor);
+  json.offline_message = helper.reformatOfflineMessage(json.offline_message);
+  return json;
+}
 
 // We recommend writing your triggers separate like this and rolling them
 // into the App definition at the end.
@@ -43,7 +39,7 @@ module.exports = {
   noun: 'offline message',
   display: {
     label: 'Offline Message Submitted',
-    description: 'Trigger when an offline message is submitted.'
+    description: 'Trigger when a visitor leaves a message when all agents are offline.'
   },
 
   // `operation` is where the business logic goes.

@@ -3,8 +3,9 @@
 process.env.CLIENT_ID = process.env.CLIENT_ID || '4d2a31d4-630a-471c-9391-4151f49a1b54';
 process.env.CLIENT_SECRET = process.env.CLIENT_SECRET || 'we2B9GH0cDOc88RWjEGI';
 
-//const authentication = require('./authentication');
-const authentication = require('./authentication-basic');
+const authentication = require('./authentication');
+// const authentication = require('./authentication-basic');
+// const authentication = require('./authentication-session');
 const offlinemessagetrigger = require('./triggers/offlinemessagesubmitted');
 const chatstartedtrigger = require('./triggers/chatstarted');
 const chatendedtrigger = require('./triggers/chatended');
@@ -31,6 +32,19 @@ const includeBasicToken = (request, z, bundle) => {
   return request;
 };
 
+// for session type authentication
+// If we get a response and it is a 401, we can raise a special error telling Zapier to retry this after another exchange.
+const sessionRefreshIf401 = (response, z, bundle) => {
+  if (bundle.authData.access_token) {
+    if (response.status === 401) {
+      bundle.action = 'sessionRefreshIf401';
+      util.postLog(z,response);
+      throw new z.errors.RefreshAuthError('Token needs refreshing.');
+    }
+  }
+  return response;
+};
+
 // We can roll up all our behaviors in an App.
 const App = {
   // This is just shorthand to reference the installed dependencies you have. Zapier will
@@ -41,11 +55,12 @@ const App = {
   authentication: authentication,
 
   beforeRequest: [
-    //includeBearerToken
-    includeBasicToken
+    includeBearerToken
+    //includeBasicToken
   ],
 
   afterResponse: [
+    // sessionRefreshIf401
   ],
 
   // If you want to define optional resources to simplify creation of triggers, searches, creates - do that here!

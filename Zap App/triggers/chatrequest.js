@@ -1,8 +1,9 @@
 const sample = require('../samples/chatended_sample.json');
 const util = require('../commom/util');
+const helper = require('../commom/jsonhelper');
 
 const subscribeHook = (z, bundle) => { 
-  return util.subscribe(z, bundle, 'chatrequest')
+  return util.subscribe(z, bundle, 'chatRequested')
 };
 
 const unsubscribeHook = (z, bundle) => {
@@ -15,16 +16,22 @@ const getChatRequest = (z, bundle) => {
 };
 
 const getFallbackRealChatRequest = (z, bundle) => { 
-   const json = sample;
+  var sample = util.getSample('chatrequested');
+  const json = reformat(sample);
    return [json];
 };
+
+const reformat = (json) =>{
+  json.visitor = helper.reformatVisitorInfo(json.visitor);
+  return json;
+}
 
 module.exports = {
   key: 'chat_requestd',
   noun: 'Chat Requestd',
   display: {
     label: 'Chat Requestd',
-    description: 'Trigger when a new chat is requested.'
+    description: 'Trigger when a visitor begin a chat request.'
   },
   operation: {
     type: 'hook',

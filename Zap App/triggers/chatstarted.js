@@ -1,5 +1,6 @@
 const sample = require('../samples/chatstarted_sample.json');
 const util = require('../commom/util');
+const helper = require('../commom/jsonhelper');
 
 const subscribeHook = (z, bundle) => { 
   return util.subscribe(z, bundle, 'chatStarted')
@@ -15,15 +16,14 @@ const getChatStarted = (z, bundle) => {
 };
 
 const getFallbackRealChatStarted = (z, bundle) => {    
-   const json = reformat(sample);
+  var sample = util.getSample('chatstarted');
+  const json = reformat(sample);
    return [json];
 };
 
 const reformat = (json) => {
-    const copy = util.copyJsonObject(json);
-    util.reformatCustomFields(copy.visitor);
-    util.reformatCustomVariables(copy.visitor);
-    return copy;
+  json.visitor = helper.reformatVisitorInfo(json.visitor);
+  return json;
 };
 
 
@@ -32,7 +32,7 @@ module.exports = {
   noun: 'Chat Started',
   display: {
     label: 'Chat Started',
-    description: 'Trigger when a new chat is started.'
+    description: 'Trigger when the chat is started.'
   },
 
   operation: {

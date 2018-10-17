@@ -12,7 +12,7 @@ const testAuth = async function(z , bundle){
 
 
   var url = `https://${info.domain}/`;
-  await checkUrl(z, url)
+  await util.checkUrl(z, url)
       .then(code =>{
          if(code == 404) {
           throw new z.errors.HaltedError(`Invalid URL : ${url} .`);
@@ -42,19 +42,6 @@ const testAuth = async function(z , bundle){
     return response.json;
   });
 };
-
-const checkUrl = (z, url) => {
-  const promise = z.request({
-    method: 'HEAD',
-    url: url
-  });
-  return promise.then((response) =>{
-     return response.status;
-  }).catch((reason)=>{
-    return 404;
-  });
-}
-
 
 module.exports = {
   type: 'custom',

@@ -1,5 +1,6 @@
 const sample = require('../samples/chatended_sample.json');
 const util = require('../commom/util');
+const helper = require('../commom/jsonhelper');
 
 const subscribeHook = (z, bundle) => { 
   return util.subscribe(z, bundle, 'chatEnded')
@@ -17,18 +18,15 @@ const getChatended = (z, bundle) => {
 };
 
 const getFallbackRealChatended = (z, bundle) => { 
+   var sample = util.getSample('chatended');
    const json = reformatJson(sample);
    return [json];
 };
 
-
 const reformatJson = (json) => {
-   const copy = util.copyJsonObject(json);
-    if(copy.chat && copy.chat.chat_transcript) {
-      const transcript = JSON.stringify(copy.chat.chat_transcript).replace(/⊙/g,'\n');
-      copy.chat.chat_transcript = transcript;
-    }
-    return copy;
+   json.visitor = helper.reformatVisitorInfo(jso.visitor);
+   json.chat = helper.reformatChatInfo(json.chat);
+   return json;
 }
 
 module.exports = {
@@ -36,7 +34,7 @@ module.exports = {
   noun: 'Chat Ended',
   display: {
     label: 'Chat Ended',
-    description: 'Trigger when a chat is ended.'
+    description: 'Trigger when the chat is ended.'
   },
 
   operation: {

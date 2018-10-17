@@ -1,8 +1,9 @@
 const sample = require('../samples/chatended_sample.json');
 const util = require('../commom/util');
+const helper = require('../commom/jsonhelper');
 
 const subscribeHook = (z, bundle) => { 
-  return util.subscribe(z, bundle, 'chattransferred')
+  return util.subscribe(z, bundle, 'chatTransferred')
 };
 
 const unsubscribeHook = (z, bundle) => {
@@ -15,9 +16,16 @@ const getChatTransferred = (z, bundle) => {
 };
 
 const getFallbackRealChatTransferred = (z, bundle) => { 
-   const json = sample;
+  var sample = util.getSample('chattransferred');
+  const json = reformat(sample);
    return [json];
 };
+
+const reformat = (json) => {
+  json.visitor = helper.reformatVisitorInfo(json.visitor);
+  json.chat = helper.reformatChatInfo(json.chat);
+  return json;
+}
 
 module.exports = {
   key: 'chat_transferred',
