@@ -72,7 +72,7 @@ const App = {
     [chatendedtrigger.key]: chatendedtrigger,
     [chatstartedtrigger.key]: chatstartedtrigger,
     [offlinemessagetrigger.key]: offlinemessagetrigger,
-    // [bottrigger.key]: bottrigger,
+   // [bottrigger.key]: bottrigger,
     [chatrequest.key]: chatrequest,
     [chatwrapup.key]: chatwrapup,
     [chattransferred.key]: chattransferred,

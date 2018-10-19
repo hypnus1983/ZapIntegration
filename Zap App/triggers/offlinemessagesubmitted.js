@@ -12,13 +12,13 @@ const unsubscribeHook = (z, bundle) => {
 
 const getOfflineMessage = (z, bundle) => {
 
-  const recipe = bundle.cleanedRequest;
+  const recipe = reformat(bundle.cleanedRequest);
 
   return [recipe];
 };
 
-const getFallbackRealOfflineMessage = (z, bundle) => {
-  var sample = util.getSample('offlinemessagesubmitted');
+const getFallbackRealOfflineMessage = async function(z, bundle) { 
+   //var sample = await util.getSample(z, bundle,'offlinemessagesubmitted');
    const json = reformat(sample);
    return [json];
 };

@@ -32,8 +32,12 @@ const _subscribeHook = async function(z, bundle, type) {
           }else{
             throw new Error('SubscribeHook error.');
           }
-        }
-        return JSON.parse(response.content);
+        }        
+        //return response.json;
+        return 
+        {
+           webhook:response.json
+        };
        });
 };
   
@@ -43,7 +47,7 @@ const _unsubscribeHook = async function(z, bundle) {
         return response;
     }); 
 
-    const hookId = bundle.subscribeData.id;
+    const hookId = bundle.subscribeData.webhook.id;
   
     const options = {
       url: `https://${info.domain}/api/v2/livechat/webhooks/${hookId}`,

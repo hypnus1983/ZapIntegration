@@ -11,12 +11,12 @@ const unsubscribeHook = (z, bundle) => {
 };
 
 const getChatRequest = (z, bundle) => {
-  const recipe = bundle.cleanedRequest;
+  const recipe = reformat(bundle.cleanedRequest);
   return [recipe];
 };
 
-const getFallbackRealChatRequest = (z, bundle) => { 
-  var sample = util.getSample('chatrequested');
+const getFallbackRealChatRequest = async function(z, bundle) {  
+  //var sample = await util.getSample(z, bundle,'chatrequested');
   const json = reformat(sample);
    return [json];
 };
@@ -27,10 +27,10 @@ const reformat = (json) =>{
 }
 
 module.exports = {
-  key: 'chat_requestd',
-  noun: 'Chat Requestd',
+  key: 'chat_requested',
+  noun: 'Chat Requested',
   display: {
-    label: 'Chat Requestd',
+    label: 'Chat Requested',
     description: 'Trigger when a visitor begin a chat request.'
   },
   operation: {

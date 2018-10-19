@@ -11,12 +11,12 @@ const unsubscribeHook = (z, bundle) => {
 };
 
 const getChatWrapUp = (z, bundle) => {
-  const recipe = bundle.cleanedRequest;
+  const recipe = reformat(bundle.cleanedRequest);
   return [recipe];
 };
 
-const getFallbackRealChatWrapup = (z, bundle) => { 
-  var sample = util.getSample('chatwrappedup');
+const getFallbackRealChatWrapup =  async function(z, bundle) { 
+  //var sample = await util.getSample(z, bundle,'chatwrappedup');
   const json = reformat(sample);
    return [json];
 };

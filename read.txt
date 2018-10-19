@@ -1,2 +1,5 @@
-update cli:
-npm i -g zapier-platform-cli
+To update cli, run npm install -g zapier-platform-cli.
+
+To update the version of core your app depends on, set the zapier-platform-core dependency in your package.json to a version listed here and run npm install.
+
+For maximum compatibility, keep the versions of cli and core in sync.

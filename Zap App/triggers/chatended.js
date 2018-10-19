@@ -17,14 +17,14 @@ const getChatended = (z, bundle) => {
   return [recipe];
 };
 
-const getFallbackRealChatended = (z, bundle) => { 
-   var sample = util.getSample('chatended');
+const getFallbackRealChatended = async function(z, bundle) { 
+   //var sample = await util.getSample(z, bundle,'chatended');
    const json = reformatJson(sample);
    return [json];
 };
 
 const reformatJson = (json) => {
-   json.visitor = helper.reformatVisitorInfo(jso.visitor);
+   json.visitor = helper.reformatVisitorInfo(json.visitor);
    json.chat = helper.reformatChatInfo(json.chat);
    return json;
 }

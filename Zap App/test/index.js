@@ -14,13 +14,14 @@ describe('My App', () => {
   it('includes the access token in future requests', (done) => {
     const bundle = {
       authData:{
-        email: 'lizzzhang2017@gmail.com',  
+        email: 'zap1@test.com',  
         baseurl: 'app.platform.comm100.com',
-        password: '111111111'
+        password: '111111'
       }
     };
 
-    appTester(App.authentication.sessionConfig.perform, bundle)
+  //  appTester(App.authentication.sessionConfig.perform, bundle)
+  appTester(chatendedtrigger.operation.performList, bundle)
       .then((response) => {
         //json_response.should.have.property('username')
         console.log('----------------------');
