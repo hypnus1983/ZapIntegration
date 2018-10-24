@@ -20,7 +20,8 @@ namespace TemplateTool
     {
         List<TemplateInfo> _list = new List<TemplateInfo>();
         Dictionary<string, string> _logodic = new Dictionary<string, string>();
-     
+        const string History = "history";
+
         public Form1()
         {
             InitializeComponent();
@@ -72,9 +73,9 @@ namespace TemplateTool
                     sb.AppendLine("INSERT INTO t_LiveChat_ZapTemplate ");
                     sb.AppendLine("( Summary, AppName, AppIcon, Link, IfShownByDefault, SortOrder ) ");
                     sb.AppendLine("VALUES ( ");
-                    sb.AppendLine(string.Format("'{0}',", template.Summary));
-                    sb.AppendLine(string.Format("'{0}',", template.AppName));
-                    sb.AppendLine(string.Format("{0},", template.AppIcon));
+                    sb.AppendLine(string.Format("'{0}',", template.Summary.Replace("'","''")));
+                    sb.AppendLine(string.Format("'{0}',", template.AppName.Replace("'", "''")));
+                    sb.AppendLine(string.Format("'{0}',", template.AppIcon));
                     sb.AppendLine(string.Format("'{0}',", template.Link));
                     sb.AppendLine(string.Format("{0},", template.IfShownByDefault ? 1 : 0));
                     sb.AppendLine(string.Format("{0}", template.SortOrder));
@@ -83,6 +84,7 @@ namespace TemplateTool
                 }
 
                 File.WriteAllText(saveFileDialog1.FileName, sb.ToString(), Encoding.UTF8);
+                File.WriteAllText(History, string.Join(",", _list.Where(x => x.IfShownByDefault).Select(x => x.Id)));
             }
             catch (Exception ex)
             {
@@ -93,11 +95,15 @@ namespace TemplateTool
         private void Fetch(dynamic templates)
         {
             _list = new List<TemplateInfo>();
-            
+            IEnumerable<int> _histor = Enumerable.Empty<int>();
             try
             {
                 var logos = GetLogos();
 
+                if (File.Exists(History))
+                {
+                    _histor = File.ReadAllText(History).Split(new char[] { ',' }).Select(x => int.Parse(x));
+                }
 
                 foreach (var template in templates)
                 {
@@ -106,6 +112,7 @@ namespace TemplateTool
                     info.AppName = template.tailService.name;
                     info.Summary = template.title;
                     info.Link = string.Format("https://zapier.com/app/editor/template/{0}", template.id);
+                    info.IfShownByDefault = _histor.Any(x => x == info.Id);
 
                     string key = template.tailService.key;
                     if (_logodic.ContainsKey(key))
@@ -157,6 +164,10 @@ namespace TemplateTool
                     child.Checked = template.IfShownByDefault;
                     node.Nodes.Add(child);
                     template.SortOrder = sortOrder++;
+                    if (template.IfShownByDefault)
+                    {
+                        child.BackColor = Color.LightGreen;
+                    }
                 }
                 treeView1.Nodes.Add(node);
             }
@@ -166,6 +177,7 @@ namespace TemplateTool
 
         private string GetLogoData(IEnumerable<String> logos, string key)
         {
+            key = key.Split(new char[] { '@' }).First();
             var line = logos.FirstOrDefault(x => x.Contains(key + "16x16") || x.Contains(key + "32x32") || x.Contains(key + "64x64"));
             if (!string.IsNullOrWhiteSpace(line))
             {
@@ -173,9 +185,11 @@ namespace TemplateTool
                 if (m.Success)
                 {
                     var data = DownloadData(m.Groups["url"].Value);
-                    return "0x" + string.Join("", data.Select(x => x.ToString("X2")));
+                   // return "0x" + string.Join("", data.Select(x => x.ToString("X2")));
+                    return "data:image/png;base64," + Convert.ToBase64String(data);
                 }
             }
+
             return null;
         }
 
@@ -196,7 +210,7 @@ namespace TemplateTool
             }
         }
 
-        private byte[] DownloadData(string url)
+        public static byte[] DownloadData(string url)
         {
             using (var stream = GetRequest(url))
             {
@@ -208,7 +222,7 @@ namespace TemplateTool
             }
         }
 
-        private Stream GetRequest(string url)
+        public static Stream GetRequest(string url)
         {
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Method = "GET";

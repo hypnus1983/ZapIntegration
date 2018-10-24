@@ -1,4 +1,4 @@
-const sample = require('../samples/chatended_sample.json');
+const sample = require('../samples/chatrequested_sample.json');
 const util = require('../commom/util');
 const helper = require('../commom/jsonhelper');
 

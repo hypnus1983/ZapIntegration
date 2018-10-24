@@ -1,7 +1,9 @@
 // You'll want to set these with either `CLIENT_ID=abc zapier test` or `zapier env 1.0.0 CLIENT_ID abc`
 // process.env.BASE_URL = process.env.BASE_URL || 'https://app.platform.comm100.com';
 process.env.CLIENT_ID = process.env.CLIENT_ID || '4d2a31d4-630a-471c-9391-4151f49a1b54';
-process.env.CLIENT_SECRET = process.env.CLIENT_SECRET || 'we2B9GH0cDOc88RWjEGI';
+//process.env.CLIENT_ID = process.env.CLIENT_ID || 'A4F6884D-FBDA-454E-8220-58DB1D816753';
+process.env.CLIENT_ID_BETA = process.env.CLIENT_ID_BETA || '97957680-C13C-4628-B8B9-0A280A9CED86';
+process.env.OAUTH_HOST = process.env.OAUTH_HOST || "hosted.comm100.com";
 
 const authentication = require('./authentication');
 // const authentication = require('./authentication-basic');

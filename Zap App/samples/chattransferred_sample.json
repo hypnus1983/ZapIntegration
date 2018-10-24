@@ -1,4 +1,5 @@
 {
+	"event": "chat_transferred",
 	"chat": {
 		"attachment": [],
 		"chat_transcript": "If you do not want to wait, please click here to leave us a message.\nAgent 1 1 has joined the chat.\n[01:51:07] 1 1: Hello!\n[01:51:12] 1 1: What can I do for you?\n[01:52:35] roger: hello, I want to know about API.\n[01:52:59] 1 1: You could get help from this page:\n[01:53:00] 1 1: https://www.comm100.com/platform/livechat-integrations/api/\n[01:53:16] roger: OK, thank you.\n[01:53:17] roger: bye\n[01:53:33] 1 1: No thanks!  Goodbye.\nThe visitor has left the chat.\nThe chat is ended. (01:53:47)\n",
@@ -11,7 +12,7 @@
 		"id": 3,
 		"name": "roger",
 		"operator_comment": "",
-		"operators": "1 1",
+		"operators": "agent 1",
 		"phone": "",
 		"product_service": "",
 		"rating": "-1",
@@ -20,7 +21,6 @@
 		"waiting_time": "6s",
 		"wrap_up": null
 	},
-	"event": "chat_ended",
 	"visitor": {
 		"browser": "Google Chrome 68.0.3440.106",
 		"chat_id": 0,
@@ -53,5 +53,27 @@
 		"time_zone": "GMT +08:00",
 		"visit_time": "1536802920154",
 		"visits": 4
-	}
+    },
+    "agentFrom": {
+        "id": 1,
+        "email": "agent1@test.com",
+        "displayName": "agent1",
+        "firstName": "agent1",
+        "lastName": "test",
+        "title": "just for test",
+        "bio": "my bio",
+        "mobilePhone": "123456789",
+        "isAdmin": false
+    },
+    "agentTo": {
+        "id": 2,
+        "email": "agent2@test.com",
+        "displayName": "agent2",
+        "firstName": "agent2",
+        "lastName": "test",
+        "title": "just for test",
+        "bio": "my bio",
+        "mobilePhone": "987654321",
+        "isAdmin": false
+    }
 }

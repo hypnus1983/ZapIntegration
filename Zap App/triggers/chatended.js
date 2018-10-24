@@ -11,10 +11,8 @@ const unsubscribeHook = (z, bundle) => {
 };
 
 const getChatended = (z, bundle) => {
-
-  const recipe = reformatJson(bundle.cleanedRequest);
-
-  return [recipe];
+  const data = reformatJson(bundle.cleanedRequest);
+  return [data];
 };
 
 const getFallbackRealChatended = async function(z, bundle) { 
