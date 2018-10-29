@@ -1,5 +1,3 @@
-var xml2js = require('xml2js');
-
 const _subscribeHook = async function(z, bundle, type) {
     const data = {
       targetUrl: bundle.targetUrl,
@@ -11,7 +9,7 @@ const _subscribeHook = async function(z, bundle, type) {
    // _postLog(z, bundle);
 
     const options = {
-      url: `https://${bundle.authData.domain}/api/v2/livechat/webhooks`,
+      url: `https://${bundle.authData.domain}/livechatwebapi/api/v2/livechat/webhooks`,
       method: 'POST',
       body: data,
       headers: {
@@ -28,24 +26,32 @@ const _subscribeHook = async function(z, bundle, type) {
             throw new Error('SubscribeHook error.');
           }
         }        
-        //return response.json;
-        return 
-        {
-           webhook:response.json
-        };
+        return response.json;
        });
 };
   
-const _unsubscribeHook = async function(z, bundle) { 
-    const hookId = bundle.subscribeData.webhook.id;
+const _unsubscribeHook = async function(z, bundle) {    
+   //  bundle.action = "_unsubscribeHook";
+  //   _postLog(z,bundle);
+
+    const hookId = bundle.subscribeData.id;
   
     const options = {
-      url: `https://${bundle.authData}/api/v2/livechat/webhooks/${hookId}`,
+      url: `https://${bundle.authData.domain}/livechatwebapi/api/v2/livechat/webhooks/${hookId}`,
       method: 'DELETE',
     };
   
     return z.request(options)
-      .then((response) => response.content);
+      .then((response) => { 
+          if (response.status != 200) {
+            if(response.json) {
+            throw new Error(response.json.Message || response.json.ErrorMessage);
+          }else{
+            throw new Error('UnSubscribeHook error.');
+          }
+        }        
+          return response.json;
+       });
 };
 
 const _copyJsonObject = (json) => {
@@ -53,15 +59,14 @@ const _copyJsonObject = (json) => {
 };
 
 const _postLog = (z, json) => {
-   console.log(json);
-   /* z.request({
+    z.request({
     method: 'POST',
-    url: `https://hooks.zapier.com/hooks/catch/3763044/lbf0z0/`,
+    url: 'https://hooks.zapier.com/hooks/catch/3734059/e6hqiz/', //`https://hooks.zapier.com/hooks/catch/3763044/lbf0z0/`,
     body: json,
     headers: {
       'Content-Type': 'application/json'
     }
-  }).then((r)=>{}); */
+  }).then((r)=>{});
 };
 
 const _checkUrl = (z, url) => {
@@ -94,21 +99,19 @@ function extractHostname(url) {
 }
 
 function _getDomain(bundle) {
-  if(bundle.authData.baseurl!= null && bundle.authData.baseurl.trim() != '') {
-    return extractHostname(bundle.authData.baseurl);
+  if(bundle.inputData.baseurl!= null && bundle.inputData.baseurl.trim() != '') {
+    return extractHostname(bundle.inputData.baseurl.trim());
   }else{
     return process.env.OAUTH_HOST;
   }
 }
 
 const _getSample = async function(z, bundle, type){
-  var info = await _checkUserEmail(z, bundle)
-            .then(response =>{
-                return response;
-            });
+
+  //_postLog(z,bundle);
 
   const options = {
-    url: `https://${info.domain}/api/v2/livechat/zapsamples/${type}`,
+    url: `https://${bundle.authData.domain}/livechatwebapi/api/v2/livechat/zapsamples/${type}`,
     method: 'GET',
   };
 

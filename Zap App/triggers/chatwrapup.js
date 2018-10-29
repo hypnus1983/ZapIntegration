@@ -16,9 +16,9 @@ const getChatWrapUp = (z, bundle) => {
 };
 
 const getFallbackRealChatWrapup =  async function(z, bundle) { 
-  //var sample = await util.getSample(z, bundle,'chatwrappedup');
+  var sample = await util.getSample(z, bundle,'chatwrappedup');
   const json = reformat(sample);
-   return [json];
+  return [json];
 };
 
 const reformat = (json) => {

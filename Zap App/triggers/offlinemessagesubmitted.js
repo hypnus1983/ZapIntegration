@@ -18,7 +18,7 @@ const getOfflineMessage = (z, bundle) => {
 };
 
 const getFallbackRealOfflineMessage = async function(z, bundle) { 
-   //var sample = await util.getSample(z, bundle,'offlinemessagesubmitted');
+   var sample = await util.getSample(z, bundle,'offlinemessagesubmitted');
    const json = reformat(sample);
    return [json];
 };

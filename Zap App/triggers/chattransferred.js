@@ -16,7 +16,7 @@ const getChatTransferred = (z, bundle) => {
 };
 
 const getFallbackRealChatTransferred = async function(z, bundle) {  
-  //var sample = await util.getSample(z, bundle,'chattransferred');
+  var sample = await util.getSample(z, bundle,'chattransferred');
   const json = reformat(sample);
    return [json];
 };

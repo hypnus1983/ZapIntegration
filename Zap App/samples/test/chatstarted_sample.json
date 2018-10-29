@@ -1,0 +1,75 @@
+{
+    "event": "chat_started",
+    "visitor": {
+        "id": 2,
+        "name": "visitor1024",
+        "chat_id": 1,
+        "ip": "192.168.1.5",
+        "chats": 0,
+        "city": "Olympia",
+        "company": "mycompany",
+        "country": "USA",
+        "current_browsing": "https://www.mysite.com/productlist.html",
+        "custom_fields": [
+            {
+                "id": 0,
+                "name": "姓名",
+                "value": "Value of 姓名"
+            },
+            {
+                "id": 0,
+                "name": "邮箱",
+                "value": "Value of 邮箱"
+            },
+            {
+                "id": 0,
+                "name": "电话",
+                "value": "Value of 电话"
+            },
+            {
+                "id": 0,
+                "name": "pre-field1",
+                "value": "Value of pre-field1"
+            },
+            {
+                "id": 0,
+                "name": "pre-field2",
+                "value": "Value of pre-field2"
+            }
+        ],
+        "custom_variables": [
+            {
+                "id": 3,
+                "name": "testCustomVariable1",
+                "type": "text",
+                "value": "testcv1",
+                "hyperlink": ""
+            },
+            {
+                "id": 4,
+                "name": "testCustomVariable2",
+                "type": "text",
+                "value": "testcv2",
+                "hyperlink": ""
+            }
+        ],
+        "department": 1,
+        "email": "visitor1@outlook.com",
+        "phone": "001-626-123-4567",
+        "first_visit_time": 1540569970,
+        "keyWords": "comm100 keywords",
+        "browser": "Google Chrome 68.0.3440.106",
+        "landing_page": "https://www.mysite.com/home.html",
+        "language": "en",
+        "operating_system": "Windows 10",
+        "page_views": 1,
+        "product_service": "",
+        "referrer_url": "",
+        "screen_resolution": "1920x1080",
+        "search_engine": "Google",
+        "state": "Washington",
+        "status": 0,
+        "time_zone": "GMT -05:00",
+        "visit_time": 1540570570
+    }
+}

@@ -3,3 +3,9 @@ To update cli, run npm install -g zapier-platform-cli.
 To update the version of core your app depends on, set the zapier-platform-core dependency in your package.json to a version listed here and run npm install.
 
 For maximum compatibility, keep the versions of cli and core in sync.
+
+# Will set the environment variable on Zapier.com
+zapier env 1.0.0 MY_SECRET_VALUE 1234
+
+# Will print a table listing the variables for this version
+zapier env 1.0.0

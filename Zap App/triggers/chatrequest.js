@@ -16,7 +16,7 @@ const getChatRequest = (z, bundle) => {
 };
 
 const getFallbackRealChatRequest = async function(z, bundle) {  
-  //var sample = await util.getSample(z, bundle,'chatrequested');
+  var sample = await util.getSample(z, bundle,'chatrequested');
   const json = reformat(sample);
    return [json];
 };

@@ -27,7 +27,7 @@ const _reformatCustomFields = (custom_fields) => {
        }
        return newVariables;
     }
-    return json;
+    return custom_variables;
   };
   
   const _reformatTranscript = (transcript) => {
@@ -77,16 +77,22 @@ const _reformatChatInfo = (chat) => {
 }
 
 const _reformatOfflineMessage = (offlinemessage) =>{
-    offlinemessage.time = _reformatDatetime(offlinemessage.time);
-    if(offlinemessage.attachment) {
-        offlinemessage.attachment.uri = _reformatUri(offlinemessage.attachment.uri);
+    if(offlinemessage){
+        offlinemessage.time = _reformatDatetime(offlinemessage.time);
+        if(offlinemessage.attachment) {
+            offlinemessage.attachment.uri = _reformatUri(offlinemessage.attachment.uri);
+        }
+        offlinemessage.custom_fields = _reformatCustomFields(offlinemessage.custom_fields);
+        offlinemessage.custom_variables = _reformatCustomVariables(offlinemessage.custom_variables);
     }
-    chat.custom_fields = _reformatCustomFields(chat.custom_fields);
-    chat.custom_variables = _reformatCustomVariables(chat.custom_variables);
+    return offlinemessage;
 }
 
 const _reformatWrapup = (wrapup) => {
-    wrapup.fields = _reformatCustomFields(wrapup.fields);
+    if(wrapup){
+        wrapup.fields = _reformatCustomFields(wrapup.fields);
+    }
+    return wrapup;
 }
 
   module.exports = {

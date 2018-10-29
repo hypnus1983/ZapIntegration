@@ -7,11 +7,18 @@ const App = require('../index');
 const appTester = zapier.createAppTester(App);
 const chatendedtrigger = require('../triggers/chatended');
 const util = require('../commom/util');
-const sample = require('../samples/chatstarted_sample.json');
+const helper = require('../commom/jsonhelper');
+const sample = require('../samples/test/chatstarted_sample.json');
 
 describe('My App', () => {
   
   it('includes the access token in future requests', (done) => {
+
+    var json = helper.reformatVisitorInfo(sample.visitor);
+    console.log(json);
+    done();
+    return;
+    
     const bundle = {
       authData:{
         email: 'zap1@test.com',  

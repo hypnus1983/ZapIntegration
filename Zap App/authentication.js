@@ -1,21 +1,29 @@
-var xml2js = require('xml2js');
 var util = require('./commom/util');
 
 const getAccessToken = (z, bundle) => {
   //bundle.action = 'getAccessToken';
   //util.postLog(z, bundle);
-    
-  var domain = bundle.cleanedRequest.querystring.host;
+  getAPPAccess(z,bundle);
+     
+  var domain = "";
+  var code = "";
+  var infos = unescape(bundle.inputData.code).split("+");
+  if(infos.length == 2)
+  {
+    var domain = infos[0];
+    var code = infos[1];
+  }else{
+     domain = util.getDomain(bundle);
+     code = bundle.inputData.code;
+  }
 
-  const promise = z.request(`https://${domain}/OAuthServer/oauth/token`, {
+  const promise = z.request(`https://${domain}/oauth/token`, {
     method: 'POST',
     body: {
-      code: bundle.inputData.code,
+      code: code,
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET,
       grant_type: 'authorization_code',
-      siteId: info.siteId,
-      // email: info.email,
       redirect_uri: bundle.inputData.redirect_uri
     },
     headers: {
@@ -37,13 +45,52 @@ const getAccessToken = (z, bundle) => {
   });  
 };
 
+const getAPPAccess = (z, bundle) => {
+  //bundle.action = 'getAPPAccess';
+  //util.postLog(z, bundle);
+  
+  var cookies = bundle.rawRequest.headers["Http-Cookie"];
+  var csrtoken = getCsrfToken(cookies);  
+  const promise = z.request(process.env.INVITEURL, {
+    method: 'POST',
+    body: {
+      confirm: 'yes',
+      csrfmiddlewaretoken: csrtoken
+    },
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      'Cookie': cookies,
+      'Referer': process.env.INVITEURL
+    }
+  });
+  promise.then((response) => {
+    //util.postLog(z, response);
+  }).catch((error)=>{
+    //util.postLog(z, error);
+  });
+}
+
+const getCsrfToken = (cookies) => {
+    var array = cookies.split(";");
+    for(var i=0; i< array.length; i++){
+       var name = array[i].split("=")[0];
+       var value = array[i].split("=")[1];
+       if(name.indexOf("token") >0 ) {
+      //if(name == "csrftoken") {
+          return value;
+       }
+    }
+    return null;
+}
+
+
 const refreshAccessToken = (z, bundle) => {
   //bundle.action = 'refreshAccessToken';
   //util.postLog(z, bundle);
 
  // const info = checkUserEmail(z, bundle);
   
-  const promise = z.request(`https://${bundle.authData.domain}/OAuthServer/oauth/token`, {
+  const promise = z.request(`https://${bundle.authData.domain}/oauth/token`, {
     method: 'POST',
     body: {
       refresh_token: bundle.authData.refresh_token,
@@ -60,7 +107,7 @@ const refreshAccessToken = (z, bundle) => {
   // return it here to update the user's auth on Zapier.
   return promise.then((response) => {
     if (response.status !== 200) {
-      throw new Error('Unable to fetch access token: ' + response.content);
+      throw new Error('Unable to refresh access token: ' + response.content);
     }
     const result = JSON.parse(JSON.stringify(response.json));
     return {
@@ -86,11 +133,11 @@ const getAuthorizeUrl = async function (z, bundle) {
         throw new z.errors.HaltedError(`Invalid URL : ${url} .`);
         }
     });
-    url += `OAuthServer/oauth/authorize?`;
+    url += `oauth/authorize?`;
     url += `client_id=${process.env.CLIENT_ID}`;
     url += `&state=${bundle.inputData.state}`;
     url += `&redirect_uri=${bundle.inputData.redirect_uri}`;
-    url += `&response_type=token`;
+    url += `&response_type=code`;
     return url; 
 };
 
@@ -117,22 +164,12 @@ module.exports = {
   },
   fields: [
     {
-      key: 'email', 
-      label: 
-      'Email', 
-      required: true, 
-      type: 'string', 
-      helpText: 'The Email login for Comm100 Live Chat.', default: 'vincent@comm300.com'
-    },
-    {
       key: 'baseurl', 
       label: 'Base URL', 
       required: false,  
       type: 'string', 
       helpText: 'Optional, change if you have own Comm100 Live Chat Server domain. Such as "mylivechat.com"', 
-      default: 'app.platform.comm100.com'
-      //inputFormat: 'https://{{input}}.yourdomain.com'
-    },
+    }
   ],
   // The test method allows Zapier to verify that the access token is valid. We'll execute this
   // method after the OAuth flow is complete to ensure everything is setup properly.
