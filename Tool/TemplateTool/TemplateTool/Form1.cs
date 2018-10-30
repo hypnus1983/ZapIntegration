@@ -69,8 +69,8 @@ namespace TemplateTool
                 StringBuilder sb = new StringBuilder();
                 foreach (var template in _list.OrderBy(x=>x.SortOrder))
                 {
-                    sb.AppendLine(string.Format("IF NOT EXISTS( select Link from t_LiveChat_ZapTemplate where Link='{0}' ) ", template.Link));
-                    sb.AppendLine("INSERT INTO t_LiveChat_ZapTemplate ");
+                    sb.AppendLine(string.Format("IF NOT EXISTS( select Link from [dbo].[t_LiveChat_ZapTemplate] where Link='{0}' ) ", template.Link));
+                    sb.AppendLine("INSERT INTO [dbo].[t_LiveChat_ZapTemplate] ");
                     sb.AppendLine("( Summary, AppName, AppIcon, Link, IfShownByDefault, SortOrder ) ");
                     sb.AppendLine("VALUES ( ");
                     sb.AppendLine(string.Format("'{0}',", template.Summary.Replace("'","''")));

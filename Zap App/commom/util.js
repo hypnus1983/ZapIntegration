@@ -61,7 +61,7 @@ const _copyJsonObject = (json) => {
 const _postLog = (z, json) => {
     z.request({
     method: 'POST',
-    url: 'https://hooks.zapier.com/hooks/catch/3734059/e6hqiz/', //`https://hooks.zapier.com/hooks/catch/3763044/lbf0z0/`,
+    url: 'https://hooks.zapier.com/hooks/catch/3966530/e6zefp/', //`https://hooks.zapier.com/hooks/catch/3763044/lbf0z0/`,
     body: json,
     headers: {
       'Content-Type': 'application/json'
@@ -107,9 +107,6 @@ function _getDomain(bundle) {
 }
 
 const _getSample = async function(z, bundle, type){
-
-  //_postLog(z,bundle);
-
   const options = {
     url: `https://${bundle.authData.domain}/livechatwebapi/api/v2/livechat/zapsamples/${type}`,
     method: 'GET',
@@ -118,16 +115,22 @@ const _getSample = async function(z, bundle, type){
   return z.request(options)
     .then((response) =>
       {
-        if (response.status != 200) {
-          if(response.json) {
-            throw new Error(response.json.Message || response.json.ErrorMessage);
-          }else{
-            throw new Error(`getSample error.(${response.status})`);
-          }
-        }
+        _checkResponse(response);
         return response.json;
       }
     );
+}
+
+const _checkResponse = (response)=>{
+  if (response.status != 200) {
+    if(response.status == 400 || response.status == 401) {
+      throw new Error('Access Denied: You have no permission for this operation.');          
+    }else if(response.json && (response.json.Message || response.json.ErrorMessage)){
+      throw new Error((response.json.Message || response.json.ErrorMessage));        
+    }else{
+      throw new Error(response.content);        
+    }
+  }
 }
 
 module.exports = {
@@ -137,5 +140,6 @@ module.exports = {
     postLog: _postLog,
     checkUrl: _checkUrl,
     getSample: _getSample,
-    getDomain:_getDomain
+    getDomain:_getDomain,
+    checkResponse:_checkResponse
 };

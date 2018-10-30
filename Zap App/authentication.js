@@ -30,11 +30,12 @@ const getAccessToken = (z, bundle) => {
       'content-type': 'application/x-www-form-urlencoded'
     }
   });
-  return promise.then((response) => {
+  return promise.then(async function(response) {
     if (response.status !== 200) {
       throw new Error('Unable to fetch access token: ' + response.content);
     }
-    const result = z.JSON.parse(z.JSON.stringify(response.json));
+    const result = response.json;
+    await checkPermission(z,domain,result.access_token);
     return {
       access_token: result.access_token,
       refresh_token: result.refresh_token,
@@ -44,6 +45,23 @@ const getAccessToken = (z, bundle) => {
     };
   });  
 };
+
+const checkPermission = (z, domain, token) =>{
+  const options = {
+    url: `https://${domain}/livechatwebapi/api/v2/livechat/zapsamples/chatended`,
+    method: 'GET',
+    headers: {
+      'Authorization' : `Bearer ${token}`
+    }
+  };
+
+  return z.request(options)
+    .then((response) =>
+      {
+        util.checkResponse(response);
+      }
+    );
+}
 
 const getAPPAccess = (z, bundle) => {
   //bundle.action = 'getAPPAccess';
@@ -84,19 +102,15 @@ const getCsrfToken = (cookies) => {
 }
 
 
-const refreshAccessToken = (z, bundle) => {
-  //bundle.action = 'refreshAccessToken';
-  //util.postLog(z, bundle);
-
- // const info = checkUserEmail(z, bundle);
-  
+const refreshAccessToken = (z, bundle) => { 
   const promise = z.request(`https://${bundle.authData.domain}/oauth/token`, {
     method: 'POST',
     body: {
       refresh_token: bundle.authData.refresh_token,
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET,
-      grant_type: 'refresh_token'
+      grant_type: 'refresh_token',
+      redirect_uri: bundle.inputData.redirect_uri
     },
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
@@ -107,9 +121,11 @@ const refreshAccessToken = (z, bundle) => {
   // return it here to update the user's auth on Zapier.
   return promise.then((response) => {
     if (response.status !== 200) {
+      bundle.action = 'refreshAccessToken error';
+      util.postLog(z, response);
       throw new Error('Unable to refresh access token: ' + response.content);
     }
-    const result = JSON.parse(JSON.stringify(response.json));
+    const result = response.json;
     return {
       access_token: result.access_token,
       refresh_token: result.refresh_token,
@@ -168,7 +184,7 @@ module.exports = {
       label: 'Base URL', 
       required: false,  
       type: 'string', 
-      helpText: 'Optional, change if you have own Comm100 Live Chat Server domain. Such as "mylivechat.com"', 
+      helpText: 'If you use your own Comm100 Live Chat server domain, please fill it out here. Example: mylivechat.com', 
     }
   ],
   // The test method allows Zapier to verify that the access token is valid. We'll execute this
