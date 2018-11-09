@@ -16,7 +16,7 @@ const getChatended = (z, bundle) => {
 };
 
 const getFallbackRealChatended = async function(z, bundle) { 
-   //var sample = await util.getSample(z, bundle,'chatended');
+   var sample = await util.getSample(z, bundle,'chatended');
    const json = reformatJson(sample);
    return [json];
 };

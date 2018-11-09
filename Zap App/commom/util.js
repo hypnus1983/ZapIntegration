@@ -61,7 +61,7 @@ const _copyJsonObject = (json) => {
 const _postLog = (z, json) => {
     z.request({
     method: 'POST',
-    url: 'https://hooks.zapier.com/hooks/catch/3966530/e6zefp/', //`https://hooks.zapier.com/hooks/catch/3763044/lbf0z0/`,
+    url: 'https://hooks.zapier.com/hooks/catch/3966530/ed563w/',
     body: json,
     headers: {
       'Content-Type': 'application/json'
@@ -123,8 +123,8 @@ const _getSample = async function(z, bundle, type){
 
 const _checkResponse = (response)=>{
   if (response.status != 200) {
-    if(response.status == 400 || response.status == 401) {
-      throw new Error('Access Denied: You have no permission for this operation.');          
+    if(response.status == 401) {
+      throw new Error('Access Denied: You have no permission for this operation.');        
     }else if(response.json && (response.json.Message || response.json.ErrorMessage)){
       throw new Error((response.json.Message || response.json.ErrorMessage));        
     }else{
@@ -137,9 +137,9 @@ module.exports = {
     subscribe: _subscribeHook,
     unsubscribe: _unsubscribeHook,
     copyJsonObject: _copyJsonObject,
-    postLog: _postLog,
     checkUrl: _checkUrl,
     getSample: _getSample,
     getDomain:_getDomain,
-    checkResponse:_checkResponse
+    checkResponse:_checkResponse,
+    postLog: _postLog,
 };

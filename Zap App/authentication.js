@@ -103,6 +103,10 @@ const getCsrfToken = (cookies) => {
 
 
 const refreshAccessToken = (z, bundle) => { 
+
+ // bundle.action="-- start refreshAccessToken";
+ // util.postLog(z,bundle);
+
   const promise = z.request(`https://${bundle.authData.domain}/oauth/token`, {
     method: 'POST',
     body: {
@@ -121,18 +125,21 @@ const refreshAccessToken = (z, bundle) => {
   // return it here to update the user's auth on Zapier.
   return promise.then((response) => {
     if (response.status !== 200) {
-      bundle.action = 'refreshAccessToken error';
-      util.postLog(z, response);
+     // bundle.action = 'refreshAccessToken error';
+     // util.postLog(z, response);
       throw new Error('Unable to refresh access token: ' + response.content);
     }
     const result = response.json;
-    return {
+    var r = {
       access_token: result.access_token,
       refresh_token: result.refresh_token,
       expires_in: result.expires_in,
       token_type: result.token_type,
       domain: bundle.authData.domain,
     };
+    //bundle.action="-- end refreshAccessToken";
+    //util.postLog(z,r);
+    return r;
   });
 };
 
@@ -158,8 +165,19 @@ const getAuthorizeUrl = async function (z, bundle) {
 };
 
 const getConnectionLabel = (z, bundle) => {
-  return `${bundle.authData.email}`;
+  const promise = z.request(`https://${bundle.authData.domain}/accountwebapi/api/v2/account/agents/me`);
+  // Needs to return `access_token`. If the refresh token stays constant, can skip it. If it changes, can
+  // return it here to update the user's auth on Zapier.
+  return promise.then((response) => {
+    if(response.status == 200 && response.json.displayName) {
+      return response.json.displayName;
+    }
+    return '';
+  }).catch((error)=>{
+    return '';
+  });
 }
+
 
 module.exports = {
   type: 'oauth2',
@@ -191,5 +209,5 @@ module.exports = {
   // method after the OAuth flow is complete to ensure everything is setup properly.
   test: testAuth,
   // assuming "username" is a key returned from the test
-  // connectionLabel: getConnectionLabel
+   connectionLabel: getConnectionLabel
 };
