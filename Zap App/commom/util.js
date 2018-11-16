@@ -115,20 +115,24 @@ const _getSample = async function(z, bundle, type){
   return z.request(options)
     .then((response) =>
       {
-        _checkResponse(response);
+        _checkResponse(z, response);
         return response.json;
       }
     );
 }
 
-const _checkResponse = (response)=>{
+const _checkResponse = (z, response)=>{
   if (response.status != 200) {
+    //throw new Error(JSON.stringify(response));
     if(response.status == 401) {
-      throw new Error('Access Denied: You have no permission for this operation.');        
-    }else if(response.json && (response.json.Message || response.json.ErrorMessage)){
-      throw new Error((response.json.Message || response.json.ErrorMessage));        
+      throw new z.errors.HaltedError('Access Denied: You have no permission for this operation.');        
+    }else if(response.json && response.json.Code && (response.json.Code == 4 || response.json.Code == 12 || response.json.Code == 13 || response.json.Code == 403003)){
+      throw new z.errors.HaltedError('Access Denied: You have no permission for this operation.');        
+    }
+    else if(response.json && (response.json.Message || response.json.ErrorMessage)){
+      throw new z.errors.HaltedError((response.json.Message || response.json.ErrorMessage));        
     }else{
-      throw new Error(response.content);        
+      throw new z.errors.HaltedError(response.content);        
     }
   }
 }

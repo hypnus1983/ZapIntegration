@@ -32,7 +32,7 @@ module.exports = {
   noun: 'Chat Wrapped Up',
   display: {
     label: 'Chat Wrapped Up',
-    description: 'Trigger when an agent wrap-up the chat.'
+    description: 'Trigger when an agent wraps up the chat.'
   },
   operation: {
     type: 'hook',

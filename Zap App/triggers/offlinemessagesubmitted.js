@@ -39,7 +39,7 @@ module.exports = {
   noun: 'offline message',
   display: {
     label: 'Offline Message Submitted',
-    description: 'Trigger when a visitor leaves a message when all agents are offline.'
+    description: 'Trigger when a visitor leaves a message.'
   },
 
   // `operation` is where the business logic goes.

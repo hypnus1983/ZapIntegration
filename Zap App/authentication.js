@@ -32,7 +32,7 @@ const getAccessToken = (z, bundle) => {
   });
   return promise.then(async function(response) {
     if (response.status !== 200) {
-      throw new Error('Unable to fetch access token: ' + response.content);
+      throw new z.errors.HaltedError('Unable to fetch access token: ' + response.content);
     }
     const result = response.json;
     await checkPermission(z,domain,result.access_token);
@@ -58,7 +58,7 @@ const checkPermission = (z, domain, token) =>{
   return z.request(options)
     .then((response) =>
       {
-        util.checkResponse(response);
+        util.checkResponse(z, response);
       }
     );
 }
@@ -127,7 +127,7 @@ const refreshAccessToken = (z, bundle) => {
     if (response.status !== 200) {
      // bundle.action = 'refreshAccessToken error';
      // util.postLog(z, response);
-      throw new Error('Unable to refresh access token: ' + response.content);
+      throw new z.errors.HaltedError('Unable to refresh access token: ' + response.content);
     }
     const result = response.json;
     var r = {
@@ -143,8 +143,8 @@ const refreshAccessToken = (z, bundle) => {
   });
 };
 
-const testAuth = (z , bundle) => {
-  return util.getSample(z, bundle,'chatstarted')
+const testAuth = async function (z , bundle) {
+  return await util.getSample(z, bundle,'chatstarted')
 };
 
 const getAuthorizeUrl = async function (z, bundle) {  
