@@ -153,7 +153,7 @@ const getAuthorizeUrl = async function (z, bundle) {
   await util.checkUrl(z, url)
     .then(code =>{
         if(code == 404) {
-        throw new z.errors.HaltedError(`Invalid URL : ${url} .`);
+        throw new z.errors.HaltedError(`Invalid URL : ${url} `);
         }
     });
     url += `oauth/authorize?`;
