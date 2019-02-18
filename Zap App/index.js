@@ -14,7 +14,7 @@
 //process.env.CLIENT_SECRET = process.env.CLIENT_SECRET || '29C49FFB-CC40-4A60-B4C5-1846A883DC8B';
 /********************** **************/
 
-process.env.OAUTH_HOST = process.env.OAUTH_HOST || "integration.comm100.com";
+process.env.OAUTH_HOST = process.env.OAUTH_HOST || "hosted.comm100.com";
 
 const authentication = require('./authentication');
 // const authentication = require('./authentication-basic');
