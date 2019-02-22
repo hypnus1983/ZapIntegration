@@ -32,7 +32,8 @@ module.exports = {
   noun: 'Chat Ended',
   display: {
     label: 'Chat Ended',
-    description: 'Trigger when the chat is ended.'
+    description: 'Triggers when the chat is ended.',
+    important: true
   },
 
   operation: {

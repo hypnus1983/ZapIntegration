@@ -32,7 +32,7 @@ module.exports = {
   noun: 'Chat Transferred',
   display: {
     label: 'Chat Transferred',
-    description: 'Trigger when a chat is transferred.'
+    description: 'Triggers when a chat is transferred.'
   },
   operation: {
     type: 'hook',

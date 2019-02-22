@@ -150,7 +150,8 @@ const testAuth = async function (z , bundle) {
 const getAuthorizeUrl = async function (z, bundle) {  
   var domain = util.getDomain(bundle);
   let url = `https://${domain}/`;
-  await util.checkUrl(z, url)
+  let testurl = `https://${domain}/OAuth/Login`;
+  await util.checkUrl(z, testurl)
     .then(code =>{
         if(code == 404) {
         throw new z.errors.HaltedError(`Invalid URL : ${url} `);
@@ -202,7 +203,7 @@ module.exports = {
       label: 'Base URL', 
       required: false,  
       type: 'string', 
-      helpText: 'If you use your own Comm100 Live Chat server domain, please fill it out here. Example: mylivechat.com', 
+      helpText: 'If you use your own Comm100 Live Chat server domain, please fill it out here (example: mylivechat.com). Otherwise, leave blank and hit \'Yes, Continue\ to login.', 
     }
   ],
   // The test method allows Zapier to verify that the access token is valid. We'll execute this

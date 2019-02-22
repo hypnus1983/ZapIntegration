@@ -29,10 +29,11 @@ const reformat = (json) => {
 
 module.exports = {
   key: 'chat_started',
-  noun: 'Chat Started',
+  noun: 'New Chat',
   display: {
-    label: 'Chat Started',
-    description: 'Trigger when the chat is started.'
+    label: 'New Chat' ,
+    description: 'Triggers when a new chat is started.',
+    important: true
   },
 
   operation: {

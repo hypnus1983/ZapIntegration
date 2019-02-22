@@ -29,10 +29,10 @@ const reformat = (json) => {
 
 module.exports = {
   key: 'chat_warpup',
-  noun: 'Chat Wrapped Up',
+  noun: 'New or Updated Chat Wrap-Up' ,
   display: {
-    label: 'Chat Wrapped Up',
-    description: 'Trigger when an agent wraps up the chat.'
+    label: 'New or Updated Chat Wrap-Up',
+    description: 'Triggers when a wrap-up is added or updated on a chat.'
   },
   operation: {
     type: 'hook',

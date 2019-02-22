@@ -31,7 +31,7 @@ module.exports = {
   noun: 'Chat Requested',
   display: {
     label: 'Chat Requested',
-    description: 'Trigger when a visitor begins a chat request.'
+    description: 'Triggers when a visitor begins a chat request.'
   },
   operation: {
     type: 'hook',

@@ -36,10 +36,11 @@ module.exports = {
 
   // You'll want to provide some helpful display labels and descriptions
   // for users. Zapier will put them into the UX.
-  noun: 'offline message',
+  noun: 'New Offline Message' ,
   display: {
-    label: 'Offline Message Submitted',
-    description: 'Trigger when a visitor leaves a message.'
+    label: 'New Offline Message' ,
+    description: 'Triggers when an offline message is received.',
+    important: true
   },
 
   // `operation` is where the business logic goes.
